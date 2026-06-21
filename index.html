@@ -1,535 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name — Roblox Systems Programmer</title>
-  <meta name="description" content="Portfolio of a Roblox Luau developer specializing in combat systems, matchmaking, progression, UI, VFX, and multiplayer game architecture." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[Your Name] — Roblox Systems Programmer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
 
-  <style>
-    :root {
-      --bg: #070913;
-      --bg-2: #0c1020;
-      --card: rgba(255, 255, 255, 0.06);
-      --card-2: rgba(255, 255, 255, 0.1);
-      --text: #f5f7ff;
-      --muted: #aab3d5;
-      --accent: #7c5cff;
-      --accent-2: #00e5ff;
-      --good: #35f29a;
-      --warn: #ffce5c;
-      --border: rgba(255, 255, 255, 0.13);
-      --shadow: 0 20px 70px rgba(0, 0, 0, 0.4);
-      --radius: 22px;
+  /* ============ TOKENS ============ */
+  :root{
+    --void:#0a0c10;
+    --panel:#12151b;
+    --panel-2:#161a22;
+    --border:rgba(255,255,255,0.08);
+    --grid-line:rgba(255,255,255,0.05);
+    --text-1:#e9ecef;
+    --text-2:#8b94a1;
+    --text-3:#5a6270;
+    --cyan:#4ee8ff;
+    --amber:#ffb020;
+    --solo:#3ddc84;
+    --co:#f5c84c;
+    --assist:#ff5c5c;
+
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'Inter',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--void);
+    color:var(--text-1);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--cyan); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--cyan);
+    outline-offset:3px;
+  }
+
+  /* ============ SIGNATURE BACKDROP: BASEPLATE GRID ============ */
+  .floor{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    background-color:var(--void);
+    background-image:
+      repeating-linear-gradient(0deg, var(--grid-line) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(90deg, var(--grid-line) 0 1px, transparent 1px 64px);
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 85%);
+  }
+
+  /* ============ LAYOUT WRAPPERS ============ */
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  .section{
+    padding:88px 0;
+  }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--text-3);
+  }
+
+  /* ============ TOP BAR ============ */
+  .topbar{
+    position:sticky;
+    top:0;
+    z-index:10;
+    backdrop-filter:blur(10px);
+    background:rgba(10,12,16,0.7);
+    border-bottom:1px solid var(--border);
+  }
+  .topbar .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 24px;
+  }
+  .topbar .name{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:15px;
+    color:var(--text-1);
+  }
+  .topbar .links{
+    display:flex;
+    gap:20px;
+    font-family:var(--font-mono);
+    font-size:13px;
+  }
+  .topbar .links a{color:var(--text-2);}
+  .topbar .links a:hover{color:var(--cyan);}
+
+  /* ============ HERO ============ */
+  .hero{
+    padding:96px 0 0;
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(48px,9vw,96px);
+    letter-spacing:-0.02em;
+    line-height:0.95;
+    margin:18px 0 24px;
+  }
+  .hero h1 span{color:var(--cyan);}
+  .hero .role{
+    font-family:var(--font-mono);
+    font-size:14px;
+    color:var(--text-2);
+    letter-spacing:0.04em;
+    margin-bottom:28px;
+  }
+  .hero p.lede{
+    max-width:620px;
+    font-size:17px;
+    color:var(--text-2);
+    margin-bottom:0;
+  }
+
+  /* combo-counter stat strip */
+  .stat-strip{
+    margin-top:64px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .stat{
+    padding:24px 8px;
+    text-align:center;
+    border-right:1px solid var(--border);
+  }
+  .stat:last-child{border-right:none;}
+  .stat .num{
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:clamp(22px,4vw,34px);
+    color:var(--cyan);
+  }
+  .stat .label{
+    font-family:var(--font-mono);
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--text-3);
+    margin-top:6px;
+  }
+
+  /* ============ LEGEND ============ */
+  .legend{
+    padding:28px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .legend-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:28px;
+    align-items:center;
+  }
+  .legend-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-2);
+  }
+  .dot{
+    width:9px;height:9px;border-radius:50%;
+    flex-shrink:0;
+  }
+  .dot.solo{background:var(--solo); box-shadow:0 0 8px var(--solo);}
+  .dot.co{background:var(--co); box-shadow:0 0 8px var(--co);}
+  .dot.assist{background:var(--assist); box-shadow:0 0 8px var(--assist);}
+
+  /* ============ PROJECT INTRO ============ */
+  .project-intro h2{
+    font-family:var(--font-display);
+    font-size:clamp(28px,4vw,40px);
+    margin-bottom:14px;
+  }
+  .project-intro p{
+    max-width:680px;
+    color:var(--text-2);
+    font-size:16px;
+  }
+
+  /* ============ SYSTEM ROWS ============ */
+  .system-row{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:48px;
+    align-items:center;
+    padding:56px 0;
+    border-top:1px solid var(--border);
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .system-row.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+  .system-row.reverse{
+    grid-template-columns:1fr 1.1fr;
+  }
+  .system-row.reverse .system-media{order:2;}
+  .system-row.reverse .system-content{order:1;}
+
+  .system-media{
+    position:relative;
+    aspect-ratio:16/10;
+    background:var(--panel);
+    border:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+  .system-media .frame-label{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-3);
+    text-align:center;
+  }
+  .corner{
+    position:absolute;
+    width:22px; height:22px;
+    border:2px solid var(--cyan);
+    opacity:0.7;
+  }
+  .corner.tl{top:10px; left:10px; border-right:none; border-bottom:none;}
+  .corner.tr{top:10px; right:10px; border-left:none; border-bottom:none;}
+  .corner.bl{bottom:10px; left:10px; border-right:none; border-top:none;}
+  .corner.br{bottom:10px; right:10px; border-left:none; border-top:none;}
+
+  .ownership-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:5px 10px;
+    border-radius:3px;
+    margin-bottom:14px;
+  }
+  .ownership-badge.solo{ color:var(--solo); border:1px solid var(--solo); background:rgba(61,220,132,0.08);}
+  .ownership-badge.co{ color:var(--co); border:1px solid var(--co); background:rgba(245,200,76,0.08);}
+  .ownership-badge.assist{ color:var(--assist); border:1px solid var(--assist); background:rgba(255,92,92,0.08);}
+
+  .system-content h3{
+    font-family:var(--font-display);
+    font-size:24px;
+    margin:0 0 10px;
+  }
+  .system-content .lede{
+    color:var(--text-1);
+    font-size:15.5px;
+    margin-bottom:12px;
+  }
+  .system-content .tech{
+    color:var(--text-2);
+    font-size:14.5px;
+    margin-bottom:16px;
+  }
+
+  .file-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .file-tags span{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-2);
+    border:1px solid var(--border);
+    padding:4px 8px;
+    border-radius:3px;
+    background:var(--panel-2);
+  }
+
+  /* ============ MORE PROJECTS ============ */
+  .more-card{
+    border:1px dashed var(--border);
+    padding:48px;
+    text-align:center;
+    color:var(--text-3);
+    font-family:var(--font-mono);
+    font-size:13px;
+    letter-spacing:0.05em;
+  }
+  .pulse{ animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:0.5;} 50%{opacity:1;} }
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:1px solid var(--border);
+    padding:48px 0 64px;
+    color:var(--text-3);
+    font-size:13px;
+  }
+  footer .links{
+    display:flex;
+    gap:24px;
+    margin-bottom:18px;
+    font-family:var(--font-mono);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:760px){
+    .system-row, .system-row.reverse{
+      grid-template-columns:1fr;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(124, 92, 255, 0.28), transparent 32%),
-        radial-gradient(circle at top right, rgba(0, 229, 255, 0.16), transparent 36%),
-        linear-gradient(180deg, var(--bg), #05060c 60%, #070913);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .container {
-      width: min(1120px, calc(100% - 36px));
-      margin: 0 auto;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(16px);
-      background: rgba(7, 9, 19, 0.74);
-      border-bottom: 1px solid var(--border);
-    }
-
-    nav {
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
-
-    .logo-mark {
-      width: 36px;
-      height: 36px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #02030a;
-      box-shadow: 0 0 30px rgba(124, 92, 255, 0.45);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 17px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--text);
-      font-weight: 700;
-      transition: 0.2s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      background: var(--card-2);
-      border-color: rgba(255, 255, 255, 0.28);
-    }
-
-    .btn.primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #02030a;
-      border: 0;
-      box-shadow: 0 12px 36px rgba(124, 92, 255, 0.3);
-    }
-
-    .hero {
-      padding: 96px 0 64px;
-      position: relative;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 36px;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 11px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.04);
-      font-size: 0.88rem;
-      margin-bottom: 18px;
-    }
-
-    .pulse {
-      width: 8px;
-      height: 8px;
-      background: var(--good);
-      border-radius: 50%;
-      box-shadow: 0 0 18px var(--good);
-    }
-
-    h1 {
-      font-size: clamp(2.9rem, 7vw, 6.2rem);
-      line-height: 0.96;
-      letter-spacing: -0.075em;
-      margin-bottom: 24px;
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #fff, #cdd5ff 35%, var(--accent-2));
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .hero p {
-      color: var(--muted);
-      max-width: 680px;
-      font-size: 1.15rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .hero-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.035)),
-        radial-gradient(circle at top right, rgba(0,229,255,0.13), transparent 40%);
-      box-shadow: var(--shadow);
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .code-window {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(4, 6, 14, 0.78);
-      overflow: hidden;
-    }
-
-    .window-bar {
-      height: 42px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-    }
-
-    .dot.red { background: #ff5f57; }
-    .dot.yellow { background: #ffbd2e; }
-    .dot.green { background: #28c840; }
-
-    pre {
-      padding: 18px;
-      color: #dce5ff;
-      font-size: 0.86rem;
-      overflow: auto;
-      line-height: 1.5;
-    }
-
-    .kw { color: #ffce5c; }
-    .fn { color: #00e5ff; }
-    .str { color: #35f29a; }
-    .cm { color: #7f89ad; }
-
-    section {
-      padding: 74px 0;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 22px;
-      margin-bottom: 28px;
-    }
-
-    .section-head h2 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      letter-spacing: -0.055em;
-      line-height: 1;
-    }
-
-    .section-head p {
-      max-width: 560px;
-      color: var(--muted);
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-top: 34px;
-    }
-
-    .stat {
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: var(--card);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 2rem;
-      letter-spacing: -0.05em;
-      line-height: 1;
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035));
-      padding: 24px;
-      box-shadow: 0 14px 44px rgba(0,0,0,0.18);
-    }
-
-    .card-icon {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 15px;
-      background: rgba(124, 92, 255, 0.18);
-      border: 1px solid rgba(124, 92, 255, 0.3);
-      margin-bottom: 18px;
-    }
-
-    .card h3 {
-      font-size: 1.18rem;
-      margin-bottom: 10px;
-      letter-spacing: -0.03em;
-    }
-
-    .card p {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .project {
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at top left, rgba(124,92,255,0.18), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.035));
-      padding: 30px;
-      box-shadow: var(--shadow);
-    }
-
-    .project-top {
-      display: grid;
-      grid-template-columns: 1fr 0.9fr;
-      gap: 28px;
-      align-items: start;
-    }
-
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 16px 0 22px;
-    }
-
-    .tag {
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid var(--border);
-      color: #dce5ff;
-      font-size: 0.84rem;
-    }
-
-    .feature-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 18px;
-      color: var(--muted);
-    }
-
-    .feature-list li {
-      list-style: none;
-      display: flex;
-      gap: 10px;
-    }
-
-    .feature-list li::before {
-      content: "✦";
-      color: var(--accent-2);
-    }
-
-    .architecture {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    .node {
-      padding: 15px 12px;
-      border-radius: 16px;
-      text-align: center;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .node.highlight {
-      color: var(--text);
-      background: linear-gradient(135deg, rgba(124,92,255,0.28), rgba(0,229,255,0.16));
-    }
-
-    .stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .stack span {
-      padding: 10px 13px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.055);
-      color: var(--muted);
-    }
-
-    .contact {
-      text-align: center;
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      padding: 54px 24px;
-      background:
-        radial-gradient(circle at center, rgba(124,92,255,0.22), transparent 45%),
-        rgba(255,255,255,0.055);
-      box-shadow: var(--shadow);
-    }
-
-    .contact h2 {
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      line-height: 1;
-      letter-spacing: -0.065em;
-      margin-bottom: 16px;
-    }
-
-    .contact p {
-      color: var(--muted);
-      max-width: 620px;
-      margin: 0 auto 26px;
-    }
-
-    footer {
-      padding: 34px 0;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid,
-      .project-top {
-        grid-template-columns: 1fr;
-      }
-
-      .cards,
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .architecture {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .nav-links {
-        display: none;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .cards,
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        padding-top: 62px;
-      }
-
-      .section-head {
-        display: block;
-      }
-
-      .section-head p {
-        margin-top: 12px;
-      }
-    }
-  </style>
+    .system-row.reverse .system-media{order:1;}
+    .system-row.reverse .system-content{order:2;}
+    .stat-strip{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+  }
+
+  /* ============ MOTION SAFETY ============ */
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+    .system-row{ opacity:1; transform:none; }
+  }
+
+</style>
 </head>
-
 <body>
-  <header>
-    <div class="container">
-      <nav>
-        <a class="logo" href="#">
-          <span class="logo-mark">B</span>
-          <span>Your Name</span>
-        </a>
 
-        <div class="nav-links">
-          <a href="#work">Work</a>
-          <a href="#systems">Systems</a>
-          <a href="#tech">Tech</a>
-          <a href="#contact">Contact</a>
-        </div>
+<div class="floor"></div>
 
-        <a class="btn" href="#contact">Hire Me</a>
-      </nav>
+<div class="topbar">
+  <div class="wrap">
+    <span class="name">[YOUR NAME]</span>
+    <div class="links">
+      <a href="#">GitHub</a>
+      <a href="#">Discord</a>
+      <a href="mailto:you@example.com">Email</a>
     </div>
-  </header>
+  </div>
+</div>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">
-            <span class="pulse"></span>
-            Roblox Luau Gameplay & Systems Programmer
-          </div>
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="eyebrow">Roblox Systems &amp; Combat Programmer</div>
+  <h1>BR<span>i</span>VALS</h1>
+  <div class="role">Roblox Studio · Luau · Server-Authoritative Architecture</div>
+  <p class="lede">A multiplayer ability-fighting framework — combat, progression, matchmaking, and a 17-character roster — built mostly solo, with the character roster co-developed alongside another scripter.</p>
 
-          <h1>
-            I build <span class="gradient-text">multiplayer combat systems</span> for Roblox.
-          </h1>
+  <div class="stat-strip">
+    <div class="stat"><div class="num">402</div><div class="label">Scripts &amp; Modules</div></div>
+    <div class="stat"><div class="num">87</div><div class="label">Remote Events</div></div>
+    <div class="stat"><div class="num">17</div><div class="label">Playable Characters</div></div>
+    <div class="stat"><div class="num">90+</div><div class="label">Ability Modules</div></div>
+  </div>
+</section>
 
-          <p>
-            I specialize in server-authoritative combat, ability frameworks, matchmaking,
-            progression systems, polished UI, and client-side VFX for large Roblox experiences.
-          </p>
+<!-- LEGEND -->
+<section class="legend wrap">
+  <div class="legend-row">
+    <span class="eyebrow" style="margin-right:4px;">Ownership key:</span>
+    <div class="legend-item"><span class="dot solo"></span> Solo build — fully built by me</div>
+    <div class="legend-item"><span class="dot co"></span> Co-build — partially built by me</div>
+    <div class="legend-item"><span class="dot assist"></span> Assisted — supported someone else's system</div>
+  </div>
+</section>
 
-          <div class="hero-actions">
-            <a class="btn primary" href="#work">View Featured Project</a>
-            <a class="btn" href="#contact">Contact Me</a>
-          </div>
+<!-- PROJECT INTRO -->
+<section class="section project-intro wrap">
+  <div class="eyebrow">Project</div>
+  <h2>A combat game built like production software</h2>
+  <p>BRivals isn't a single script — it's a full client/server framework: hit detection, blocking and parries live on the server, characters share a common ability architecture instead of duplicated logic, and matches run through a real queue → round → reward pipeline with reconnect and forfeit handling. Six systems below, broken down individually.</p>
+</section>
 
-          <div class="stats">
-            <div class="stat">
-              <strong
+<!-- SYSTEM ROWS -->
+<main class="wrap">
+
+  <article class="system-row">
+    <div class="system-media">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame-label">Drop gameplay clip / GIF here<br>(combat — blocks, parries, knockback)</div>
+    </div>
+    <div class="system-content">
+      <span class="ownership-badge solo"><span class="dot solo"></span>Solo build</span>
+      <h3>Combat Framework</h3>
+      <p class="lede">Real combat with blocking, parries, and grabs — all decided on the server, so it can't be faked from the client.</p>
+      <p class="tech">Built the server-authoritative combat layer covering damage application, hit detection, hit-stun, i-frames, knockback, blocking, parry / guard-break, recovery windows, combo gating, and team / friendly-fire filtering.</p>
+      <div class="file-tags">
+        <span>CombatService</span><span>BlockService</span><span>GrabService</span><span>BRivalsEngineCore</span><span>StandManager</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="system-row reverse">
+    <div class="system-media">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame-label">Drop gameplay clip / GIF here<br>(character roster &amp; abilities)</div>
+    </div>
+    <div class="system-content">
+      <span class="ownership-badge co"><span class="dot co"></span>Co-build — 10 of 17 characters</span>
+      <h3>Character &amp; Ability System</h3>
+      <p class="lede">17 playable characters, each with a full kit of unique abilities, built on one shared framework instead of copy-pasted scripts.</p>
+      <p class="tech">Designed the shared controller / state / ability-module pattern every character follows, and personally built 10 of the 17 character kits (part of the project's ~90 total ability modules) on top of it; the remaining characters were built by another scripter using the same framework.</p>
+      <div class="file-tags">
+        <span>Controller</span><span>State</span><span>M1 / M2 / E / R / T / X modules</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="system-row">
+    <div class="system-media">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame-label">Drop gameplay clip / GIF here<br>(progression / rewards)</div>
+    </div>
+    <div class="system-content">
+      <span class="ownership-badge solo"><span class="dot solo"></span>Solo build</span>
+      <h3>Player Progression</h3>
+      <p class="lede">Saves, currency, XP, and daily rewards — the systems that make people come back tomorrow.</p>
+      <p class="tech">Built the DataStore-backed profile system handling inventory, character ownership, coins, XP / leveling, and daily and competitive reward application, with full client-side sync.</p>
+      <div class="file-tags">
+        <span>PlayerService</span><span>StandService</span><span>CosmeticService</span><span>PetService</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="system-row reverse">
+    <div class="system-media">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame-label">Drop gameplay clip / GIF here<br>(gacha / inventory)</div>
+    </div>
+    <div class="system-content">
+      <span class="ownership-badge solo"><span class="dot solo"></span>Solo build</span>
+      <h3>Gacha, Inventory &amp; Cosmetics</h3>
+      <p class="lede">The roll-for-a-character economy, plus the inventory and cosmetics that show off what players unlock.</p>
+      <p class="tech">Built the rarity-pool rolling system for characters, cosmetics, perks, and pets, along with the inventory UI, live viewport previews, and cosmetic rig application on the player's character.</p>
+      <div class="file-tags">
+        <span>StandRegistry</span><span>CosmeticRegistry</span><span>InventoryControllerV2</span><span>RollStandController</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="system-row">
+    <div class="system-media">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame-label">Drop gameplay clip / GIF here<br>(matchmaking / rounds)</div>
+    </div>
+    <div class="system-content">
+      <span class="ownership-badge solo"><span class="dot solo"></span>Solo build</span>
+      <h3>Competitive Matchmaking</h3>
+      <p class="lede">Real queues and real matches — lobby to round to scoreboard, with reconnect and forfeit handled instead of just breaking.</p>
+      <p class="tech">Built the full competitive flow: MemoryStore-backed lobby queues, match tickets, reserved-server teleportation, round lifecycle, scoring, MVP tracking, spectator mode, reconnect, and forfeit handling.</p>
+      <div class="file-tags">
+        <span>MatchmakingService</span><span>RoundService</span><span>ScoreService</span><span>ReconnectService</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="system-row reverse">
+    <div class="system-media">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="frame-label">Drop gameplay clip / GIF here<br>(HUD / input / VFX)</div>
+    </div>
+    <div class="system-content">
+      <span class="ownership-badge solo"><span class="dot solo"></span>Solo build</span>
+      <h3>Client UX &amp; VFX</h3>
+      <p class="lede">Everything the player actually feels — inputs that respond instantly, hits that read clearly, a HUD that stays out of the way.</p>
+      <p class="tech">Built the input, movement, and VFX controllers along with the combat and status HUD, including mobile control support and combo / cooldown feedback.</p>
+      <div class="file-tags">
+        <span>InputHandler</span><span>MovementController</span><span>VFXController</span><span>StatusHUDController</span>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<!-- MORE PROJECTS -->
+<section class="section wrap">
+  <div class="more-card pulse">[ More projects loading — check back soon ]</div>
+</section>
+
+<footer class="wrap">
+  <div class="links">
+    <a href="#">GitHub</a>
+    <a href="#">Discord</a>
+    <a href="mailto:you@example.com">Email</a>
+  </div>
+  <div>© 2026 [Your Name]. Built in Roblox Studio.</div>
+</footer>
+
+<script>
+  // Reveal system rows on scroll, skip entirely if reduced motion is requested
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rows = document.querySelectorAll('.system-row');
+
+  if (prefersReducedMotion) {
+    rows.forEach(r => r.classList.add('in-view'));
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    rows.forEach(r => observer.observe(r));
+  }
+</script>
+
+</body>
+</html>
