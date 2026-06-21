@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Alterna Studio — Roblox Systems Programmer, Available For Hire</title>
-  <meta name="description" content="Roblox systems programmer specializing in server-authoritative combat, matchmaking, competitive match flow, and modular Luau architecture. Scanned from two production-scale Roblox Studio places — 866 code assets, 593 ModuleScripts." />
+  <meta name="description" content="Roblox systems programmer specializing in server-authoritative combat, matchmaking, competitive match flow, and modular Luau architecture. from two production-scale Roblox Studio places — 866 code assets, 593 ModuleScripts." />
   <meta name="theme-color" content="#050608" />
 
   <meta property="og:type" content="website" />
@@ -1027,7 +1027,7 @@
     }
 
     .engage-card.featured::before {
-      content: "Most Common";
+      content: "Most Preferred";
       position: absolute;
       top: -11px;
       left: 22px;
@@ -1086,56 +1086,7 @@
       flex-shrink: 0;
     }
 
-    /* ---------- FAQ ---------- */
-    .faq-list {
-      display: grid;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .faq-item {
-      background: var(--surface);
-    }
-
-    .faq-item summary {
-      list-style: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 19px 22px;
-      font-family: var(--font-display);
-      font-size: 16px;
-      color: var(--text-1);
-    }
-
-    .faq-item summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .faq-item summary .plus {
-      font-family: var(--font-mono);
-      font-size: 18px;
-      color: var(--red);
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-
-    .faq-item[open] summary .plus {
-      transform: rotate(45deg);
-    }
-
-    .faq-item .faq-a {
-      padding: 0 22px 20px;
-      color: var(--text-2);
-      font-size: 14.5px;
-      max-width: 760px;
-    }
-
+   
     /* ---------- Footer ---------- */
     .footer-grid {
       display: flex;
@@ -1337,7 +1288,6 @@
         <a href="#systems" data-nav>Systems</a>
         <a href="#code" data-nav>Code</a>
         <a href="#metrics" data-nav>Metrics</a>
-        <a href="#faq" data-nav>FAQ</a>
         <a href="#contact" data-nav>Contact</a>
       </nav>
 
@@ -1371,7 +1321,7 @@
           <p class="lede">
             My strongest proof is a two-place Roblox fighting project built across
             <strong>BRAINROT RIVALS</strong> and <strong>COMPETITIVE ALPHA</strong>.
-            I use it here as a technical case study — not as “look at my game,” but as evidence that I can
+            I use it here as a technical case study — not as "look at my game," but as evidence that I can
             organize and maintain real Roblox systems at production scale.
           </p>
 
@@ -1384,10 +1334,10 @@
         </div>
 
         <aside class="hero-card reveal">
-          <div class="kicker">Scanned From Two Active Roblox Studio Places</div>
+          <div class="kicker">Extracted From Two Roblox Studio Places</div>
           <h2>Production-style systems, split across lobby and competitive environments.</h2>
           <p>
-            The scanned projects include a main game/lobby/progression place and a separate competitive match
+            The Two projects include a main game/lobby/progression place and a separate competitive match
             environment with round logic, scoring, reconnect flow, spectators, rewards, and match cleanup.
           </p>
 
@@ -1926,7 +1876,9 @@
             </p>
           </div>
         </div>
-      </section>      <section class="spotlight">
+      </section>
+
+      <section class="spotlight">
         <div class="spotlight-top reverse reveal">
           <div class="media">
             <span class="corner tl"></span>
@@ -1974,7 +1926,7 @@
             <h4>Mobile Support</h4>
             <p>
               Dedicated mobile combat controls and block fallback scripts show the project was built for
-              Roblox’s real device mix, not only desktop testing.
+              Roblox's real device mix, not only desktop testing.
             </p>
           </div>
 
@@ -2070,12 +2022,14 @@
         <div class="eyebrow">Code Patterns</div>
         <h2>Portfolio-safe examples of how the systems are structured.</h2>
         <p>
-          These examples are shortened to show engineering patterns without dumping entire production scripts:
-          input buffering behind server validation, server-created hitbox debug visuals, and queue storage
-          that can run live with MemoryStore while still being testable inside Studio.
+          These examples are shortened from the main scripts building the game.
+          They show real engineering patterns without dumping full production scripts: server authority,
+          input buffering, queue fallbacks, accept flow, teleport recovery, round state, rewards,
+          mobile UX, HUD recovery, and registry-driven content.
         </p>
 
         <div class="code-grid">
+
           <article class="code-card">
             <div class="code-title">
               <strong>BRivalsEngineCore</strong>
@@ -2087,35 +2041,34 @@ local inputBuffer = {}
 
 if CombatService.IsInRecovery(player)
 and inputType == <span class="hl-green">"M1"</span> then
-  inputBuffer[player.UserId] = {
-    inputType = inputType,
-    payload = payload,
-    standId = standId,
-    time = tick(),
-  }
+    inputBuffer[player.UserId] = {
+        inputType = inputType,
+        payload = payload,
+        standId = standId,
+        time = tick(),
+    }
 
-  task.spawn(function()
-    while inputBuffer[userId]
-    and tick() - inputBuffer[userId].time
-    &lt; INPUT_BUFFER_WINDOW do
-      if not CombatService.IsInRecovery(player) then
-        local buffered = inputBuffer[userId]
+    task.spawn(function()
+        while inputBuffer[userId]
+        and tick() - inputBuffer[userId].time
+        &lt; INPUT_BUFFER_WINDOW do
+            if not CombatService.IsInRecovery(player) then
+                local buffered = inputBuffer[userId]
+                inputBuffer[userId] = nil
+
+                BRivalsEngineCore.ProcessAbilityRequest(
+                    player,
+                    buffered.inputType,
+                    buffered.payload
+                )
+                return
+            end
+
+            task.wait(<span class="hl-red">0.016</span>)
+        end
+
         inputBuffer[userId] = nil
-
-        BRivalsEngineCore.ProcessAbilityRequest(
-          player,
-          buffered.inputType,
-          buffered.payload
-        )
-
-        return
-      end
-
-      task.wait(<span class="hl-red">0.016</span>)
-    end
-
-    inputBuffer[userId] = nil
-  end)
+    end)
 end</code></pre>
           </article>
 
@@ -2128,36 +2081,36 @@ end</code></pre>
 local HITBOX_INDICATOR_LIFETIME = <span class="hl-red">0.085</span>
 
 local function makeHitboxIndicatorBase(name)
-  local part = Instance.new(<span class="hl-green">"Part"</span>)
-  part.Name = name
-  part.Anchored = true
-  part.CanCollide = false
-  part.CanTouch = false
-  part.CanQuery = false
-  part.CastShadow = false
-  part.Material = Enum.Material.ForceField
-  part.Transparency = <span class="hl-red">0.88</span>
-  part.Parent = workspace
+    local part = Instance.new(<span class="hl-green">"Part"</span>)
+    part.Name = name
+    part.Anchored = true
+    part.CanCollide = false
+    part.CanTouch = false
+    part.CanQuery = false
+    part.CastShadow = false
+    part.Material = Enum.Material.ForceField
+    part.Transparency = <span class="hl-red">0.88</span>
+    part.Parent = workspace
 
-  Debris:AddItem(
-    part,
-    HITBOX_INDICATOR_LIFETIME + <span class="hl-red">0.05</span>
-  )
+    Debris:AddItem(
+        part,
+        HITBOX_INDICATOR_LIFETIME + <span class="hl-red">0.05</span>
+    )
 
-  return part
+    return part
 end
 
 function CombatService.ShowHitboxRadius(position, radius)
-  if not hitboxIndicatorsEnabled then return end
+    if not hitboxIndicatorsEnabled then return end
 
-  local part = makeHitboxIndicatorBase(
-    <span class="hl-green">"HitboxIndicator_Radius"</span>
-  )
+    local part = makeHitboxIndicatorBase(
+        <span class="hl-green">"HitboxIndicator_Radius"</span>
+    )
 
-  local diameter = math.max(radius * <span class="hl-red">2</span>, <span class="hl-red">0.1</span>)
-  part.Shape = Enum.PartType.Ball
-  part.Size = Vector3.new(diameter, diameter, diameter)
-  part.CFrame = CFrame.new(position)
+    local diameter = math.max(radius * <span class="hl-red">2</span>, <span class="hl-red">0.1</span>)
+    part.Shape = Enum.PartType.Ball
+    part.Size = Vector3.new(diameter, diameter, diameter)
+    part.CFrame = CFrame.new(position)
 end</code></pre>
           </article>
 
@@ -2171,41 +2124,1282 @@ local fallbackQueues = {}
 local memoryStoreAvailable = true
 
 function QueueStoreAdapter.UpsertTicket(ticket)
-  local modeId = ticket.QueueMode
-  local key = tostring(ticket.UserId)
-  local ttl = CompetitiveConstants.Queue.TicketTtlSeconds
+    local modeId = ticket.QueueMode
+    local key = tostring(ticket.UserId)
+    local ttl = CompetitiveConstants.Queue.TicketTtlSeconds
 
-  if memoryStoreAvailable then
-    local ok, err = pcall(function()
-      local map = MemoryStoreService:GetSortedMap(
-        getStoreKey(modeId)
-      )
+    if memoryStoreAvailable then
+        local ok, err = pcall(function()
+            local map = MemoryStoreService:GetSortedMap(
+                getStoreKey(modeId)
+            )
 
-      map:SetAsync(
-        key,
-        ticket,
-        ttl,
-        ticket.Timestamp or os.time()
-      )
-    end)
+            map:SetAsync(
+                key,
+                ticket,
+                ttl,
+                ticket.Timestamp or os.time()
+            )
+        end)
 
-    if ok then
-      return true
+        if ok then
+            return true
+        end
+
+        memoryStoreAvailable = false
+        warn(<span class="hl-green">"MemoryStore unavailable; using local fallback"</span>, err)
     end
 
-    memoryStoreAvailable = false
-    warn(<span class="hl-green">"MemoryStore unavailable; using local fallback"</span>, err)
-  end
+    local queue = getFallbackQueue(modeId)
+    queue[key] = {
+        Value = ticket,
+        ExpiresAt = os.clock() + ttl,
+    }
 
-  local queue = getFallbackQueue(modeId)
-  queue[key] = {
-    Value = ticket,
-    ExpiresAt = os.clock() + ttl,
-  }
-
-  return true
+    return true
 end</code></pre>
           </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MatchAcceptService</strong>
+              <span>Accept / Decline Flow</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Match only advances when every participant accepts</span>
+local function onAcceptRemote(player, payload)
+    if type(payload) ~= <span class="hl-green">"table"</span> then return end
+
+    local matchToken = payload.MatchToken
+    local action = payload.Action
+    local match = MatchStateService.GetMatch(matchToken)
+
+    if not match
+    or match.State ~= CompetitiveConstants.MatchStates.Matching then
+        return
+    end
+
+    if not isParticipant(match, player.UserId) then
+        return
+    end
+
+    if os.clock() &gt; match.AcceptDeadline then
+        cancelMatch(matchToken, <span class="hl-green">"TimedOut"</span>)
+        return
+    end
+
+    if action == <span class="hl-green">"Accept"</span> then
+        MatchStateService.MarkAccepted(matchToken, player.UserId)
+
+        fireToMatchPlayers(match, <span class="hl-green">"AcceptUpdate"</span>, {
+            AcceptedCount = MatchAcceptService.GetAcceptedCount(matchToken),
+            RequiredCount = #match.Players,
+            RemainingSeconds = math.max(
+                <span class="hl-red">0</span>,
+                math.ceil(match.AcceptDeadline - os.clock())
+            ),
+        })
+
+        if MatchStateService.HasAllAccepted(matchToken) then
+            completeAccepted(matchToken)
+        end
+    elseif action == <span class="hl-green">"Decline"</span> then
+        cancelMatch(matchToken, <span class="hl-green">"Declined"</span>)
+    end
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MatchAcceptService</strong>
+              <span>Teleport Handoff</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Once accepted, hand the match to teleport prep</span>
+local function completeAccepted(matchToken)
+    local match = MatchStateService.GetMatch(matchToken)
+    if not match then return end
+
+    MatchStateService.SetMatchState(
+        matchToken,
+        CompetitiveConstants.MatchStates.Accepted
+    )
+
+    fireToMatchPlayers(match, <span class="hl-green">"Accepted"</span>, {
+        Message = <span class="hl-green">"Teleport preparation starting"</span>,
+        TeleportStub = false,
+    })
+
+    task.spawn(function()
+        local ok, err =
+            TeleportPreparationService.PrepareAndTeleport(match)
+
+        if not ok then
+            warn(
+                <span class="hl-green">"[MatchAcceptService] Teleport preparation failed"</span>,
+                err
+            )
+        end
+    end)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>TeleportPreparationService</strong>
+              <span>Reserved Server Teleport</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Reserve server, build match packet, then teleport</span>
+function TeleportPreparationService.PrepareAndTeleport(match)
+    local players = getMatchPlayers(match)
+    if #players == <span class="hl-red">0</span> then
+        return false, <span class="hl-green">"NoPlayers"</span>
+    end
+
+    if pendingTeleports[match.MatchToken] then
+        return false, <span class="hl-green">"TeleportAlreadyPending"</span>
+    end
+
+    MatchStateService.SetMatchState(
+        match.MatchToken,
+        CompetitiveConstants.MatchStates.PreparingTeleport
+    )
+
+    for _, player in ipairs(players) do
+        player:SetAttribute(<span class="hl-green">"CompetitiveMatchToken"</span>, match.MatchToken)
+        player:SetAttribute(<span class="hl-green">"CompetitiveTeleportPending"</span>, true)
+    end
+
+    local reservedServerCode, reserveError =
+        MatchReservationService.ReserveMatchServer(match.MatchToken)
+
+    if not reservedServerCode then
+        requeuePlayers(match, reserveError)
+        return false, reserveError
+    end
+
+    local packet =
+        MatchPacketService.CreateMatchPacket(match, reservedServerCode)
+
+    local teleportData = TeleportDataSchema.Build({
+        MatchPacket = packet,
+        SourcePlaceId = game.PlaceId,
+        SourceJobId = game.JobId,
+    })
+
+    return teleportAttempt(
+        MatchReservationService.GetBetaMapPlaceId(),
+        reservedServerCode,
+        players,
+        teleportData
+    )
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>TeleportPreparationService</strong>
+              <span>Failure Recovery</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Failed teleports push players back into recoverable lobby state</span>
+local function requeuePlayers(match, reason)
+    for _, info in ipairs(match.Players or {}) do
+        local player = Players:GetPlayerByUserId(info.UserId)
+
+        MatchStateService.ClearPlayer(info.UserId)
+
+        if player then
+            LobbyPlayerStateService.CancelQueueScan(player)
+            MatchTicketService.RemoveQueueTicket(player)
+            MatchTicketService.RequeuePlayerIfStillInZone(
+                player,
+                match.ModeId
+            )
+
+            player:SetAttribute(<span class="hl-green">"CompetitiveTeleportPending"</span>, false)
+            player:SetAttribute(<span class="hl-green">"CompetitiveTeleportFailed"</span>, true)
+            player:SetAttribute(
+                <span class="hl-green">"CompetitiveTeleportReason"</span>,
+                reason or <span class="hl-green">"TeleportFailed"</span>
+            )
+
+            TeleportEvent:FireClient(player, {
+                State = <span class="hl-green">"TeleportFailed"</span>,
+                MatchToken = match.MatchToken,
+                ModeId = match.ModeId,
+                Reason = reason or <span class="hl-green">"TeleportFailed"</span>,
+            })
+        end
+    end
+
+    MatchStateService.RemoveMatch(match.MatchToken)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>RoundService</strong>
+              <span>Round Preparation</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Reset players, freeze them, then run countdown</span>
+function RoundService.PrepareRound()
+    Players.CharacterAutoLoads = false
+    MVPService.ResetRound()
+
+    resolving = false
+    roundActive = false
+    roundToken += <span class="hl-red">1</span>
+
+    local token = roundToken
+    local _, _, completedRounds = ScoreService.GetScores()
+    local upcoming = completedRounds + <span class="hl-red">1</span>
+
+    MatchSessionService.AssignSpawnPads()
+
+    MatchStateService.SetRound(upcoming, {
+        Type = <span class="hl-green">"PrepareRound"</span>,
+        RoundNumber = upcoming,
+    })
+
+    MatchStateService.SetState(defs.PreRound, {
+        RoundNumber = upcoming,
+    })
+
+    for _, player in ipairs(expectedPlayers()) do
+        if not player:GetAttribute(<span class="hl-green">"MatchForfeited"</span>) then
+            resetPlayerForRound(player)
+            hardPlaceAndFreeze(player, <span class="hl-green">"PreRound"</span>)
+        end
+    end
+
+    publishAlive()
+
+    for i = rules.PreRoundCountdownSeconds, <span class="hl-red">1</span>, -<span class="hl-red">1</span> do
+        UIEvent:FireAllClients({
+            EventType = <span class="hl-green">"UI"</span>,
+            Type = <span class="hl-green">"Countdown"</span>,
+            Seconds = i,
+            RoundNumber = upcoming,
+        })
+
+        task.wait(<span class="hl-red">1</span>)
+        if token ~= roundToken or not loopStarted then return end
+    end
+
+    RoundService.StartRound(upcoming)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>RoundService</strong>
+              <span>Round Resolution</span>
+            </div>
+            <pre><code><span class="hl-gray">-- One resolver owns score, overtime, match point, and victory</span>
+function RoundService.ResolveRoundEnd(winnerTeamId)
+    if resolving or not roundActive then return end
+
+    resolving = true
+    roundActive = false
+
+    MatchStateService.SetState(defs.RoundEnding, {
+        WinnerTeamId = winnerTeamId,
+    })
+
+    for _, player in ipairs(expectedPlayers()) do
+        player:SetAttribute(<span class="hl-green">"BRivals_RoundActive"</span>, false)
+        player:SetAttribute(<span class="hl-green">"MatchAllowRoundRespawn"</span>, false)
+    end
+
+    FreezeService.FreezeTeam(expectedPlayers(), <span class="hl-green">"RoundEnding"</span>)
+
+    local team1, team2 = ScoreService.AddRoundWinner(winnerTeamId)
+    local overtime = ScoreService.CheckOvertimeTransition()
+
+    if overtime then
+        OvertimeService.Start(overtime.Level, overtime.FirstTo)
+    end
+
+    if team1 == getModeRules().MatchPointAtWins
+    or team2 == getModeRules().MatchPointAtWins then
+        MatchPointService.Announce()
+    end
+
+    local winner = ScoreService.GetWinner()
+    if winner then
+        FreezeService.FreezeTeam(expectedPlayers(), <span class="hl-green">"MatchEnding"</span>)
+        VictoryService.EndMatch(winner, {
+            Team1Score = team1,
+            Team2Score = team2,
+        })
+    end
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>RoundService</strong>
+              <span>Elimination Check</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Round winner is determined from server-side alive state</span>
+local function aliveByTeam(teamId)
+    local list = {}
+
+    for _, player in ipairs(expectedPlayers()) do
+        local sameTeam =
+            TeamService.GetPlayerTeamId(player) == teamId
+
+        local disqualified =
+            player:GetAttribute(<span class="hl-green">"MatchDead"</span>)
+            or player:GetAttribute(<span class="hl-green">"MatchForfeited"</span>)
+            or player:GetAttribute(<span class="hl-green">"Match_SpectatorPlaceholder"</span>)
+
+        if sameTeam and not disqualified then
+            local hum = player.Character
+                and player.Character:FindFirstChildOfClass(<span class="hl-green">"Humanoid"</span>)
+
+            if hum and hum.Health &gt; <span class="hl-red">0</span> then
+                table.insert(list, player)
+            end
+        end
+    end
+
+    return list
+end
+
+function RoundService.CheckElimination()
+    if not roundActive then return end
+
+    local alive1 = #aliveByTeam(<span class="hl-red">1</span>)
+    local alive2 = #aliveByTeam(<span class="hl-red">2</span>)
+
+    UI.PublishAlive(alive1, alive2)
+
+    if alive1 &lt;= <span class="hl-red">0</span> and alive2 &gt; <span class="hl-red">0</span> then
+        RoundService.ResolveRoundEnd(<span class="hl-red">2</span>)
+    elseif alive2 &lt;= <span class="hl-red">0</span> and alive1 &gt; <span class="hl-red">0</span> then
+        RoundService.ResolveRoundEnd(<span class="hl-red">1</span>)
+    end
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MatchSessionService</strong>
+              <span>Unique Spawn Assignment</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Spawn pads are assigned per team without duplicates</span>
+function MatchSessionService.AssignSpawnPads()
+    if not activeSession then return end
+
+    local requiredTeamCounts = { [<span class="hl-red">1</span>] = <span class="hl-red">0</span>, [<span class="hl-red">2</span>] = <span class="hl-red">0</span> }
+
+    for _, info in ipairs(activeSession.Players or {}) do
+        local teamId = tonumber(info.TeamId) or <span class="hl-red">1</span>
+        info.TeamId = teamId
+        requiredTeamCounts[teamId] =
+            (requiredTeamCounts[teamId] or <span class="hl-red">0</span>) + <span class="hl-red">1</span>
+    end
+
+    local selectedMapId = SpawnMapService.SelectMapId(activeSession)
+    local teamPads = {
+        [<span class="hl-red">1</span>] = SpawnMapService.GetUniqueTeamPads(
+            activeSession.ModeId,
+            <span class="hl-red">1</span>,
+            selectedMapId,
+            requiredTeamCounts[<span class="hl-red">1</span>]
+        ),
+
+        [<span class="hl-red">2</span>] = SpawnMapService.GetUniqueTeamPads(
+            activeSession.ModeId,
+            <span class="hl-red">2</span>,
+            selectedMapId,
+            requiredTeamCounts[<span class="hl-red">2</span>]
+        ),
+    }
+
+    table.clear(activeSession.SpawnAssignments)
+
+    local teamIndexes = { [<span class="hl-red">1</span>] = <span class="hl-red">0</span>, [<span class="hl-red">2</span>] = <span class="hl-red">0</span> }
+    local usedPads = {}
+
+    for _, info in ipairs(activeSession.Players or {}) do
+        local teamId = tonumber(info.TeamId) or <span class="hl-red">1</span>
+        teamIndexes[teamId] += <span class="hl-red">1</span>
+
+        local spawnPart = teamPads[teamId][teamIndexes[teamId]]
+
+        if spawnPart and not usedPads[spawnPart] then
+            usedPads[spawnPart] = true
+            activeSession.SpawnAssignments[info.UserId] = spawnPart
+        end
+    end
+
+    activeSession.SpawnAssignmentReady = true
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MatchSessionService</strong>
+              <span>Safe Spawn Placement</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Characters are placed using raycast-grounded spawn height</span>
+function MatchSessionService.PlacePlayerAtSpawn(player)
+    if not activeSession or not player then return false end
+
+    local info = MatchSessionService.GetPlayerInfo(player.UserId)
+    local teamId =
+        tonumber(info and info.TeamId)
+        or tonumber(player:GetAttribute(<span class="hl-green">"MatchTeamId"</span>))
+        or <span class="hl-red">1</span>
+
+    local spawnPart = activeSession.SpawnAssignments[player.UserId]
+
+    if not spawnPart or not spawnPart.Parent then
+        MatchSessionService.AssignSpawnPads()
+        spawnPart = activeSession.SpawnAssignments[player.UserId]
+    end
+
+    if not spawnPart then
+        warn(<span class="hl-green">"[MatchSessionService] Missing spawn assignment"</span>)
+        return false
+    end
+
+    local character = player.Character
+    local root = character and character:FindFirstChild(<span class="hl-green">"HumanoidRootPart"</span>)
+    local hum = character and character:FindFirstChildOfClass(<span class="hl-green">"Humanoid"</span>)
+
+    if root then
+        local groundY = findSpawnGroundY(spawnPart, character)
+        local bottomOffset = getPivotBottomOffset(character)
+        local rotation = spawnPart.CFrame - spawnPart.CFrame.Position
+
+        character:PivotTo(
+            CFrame.new(
+                spawnPart.Position.X,
+                groundY + bottomOffset + <span class="hl-red">0.08</span>,
+                spawnPart.Position.Z
+            ) * rotation
+        )
+
+        root.AssemblyLinearVelocity = Vector3.zero
+        root.AssemblyAngularVelocity = Vector3.zero
+
+        if hum then hum.PlatformStand = false end
+
+        player:SetAttribute(<span class="hl-green">"MatchTeamId"</span>, teamId)
+        player:SetAttribute(<span class="hl-green">"MatchSpawnMapId"</span>, activeSession.SelectedSpawnMapId)
+
+        return true
+    end
+
+    return false
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MatchSessionService</strong>
+              <span>Illegal Respawn Suppression</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Dead players cannot accidentally respawn mid-round</span>
+local function shouldSuppressRoundRespawn(player)
+    if not activeSession
+    or not player
+    or not MatchSessionService.IsMember(player) then
+        return false
+    end
+
+    if player:GetAttribute(<span class="hl-green">"MatchDead"</span>) ~= true then
+        return false
+    end
+
+    if player:GetAttribute(<span class="hl-green">"MatchAllowRoundRespawn"</span>) == true then
+        return false
+    end
+
+    local round = safeRequire(<span class="hl-green">"RoundService"</span>)
+
+    if round and round.IsRoundActive and round.IsRoundActive() then
+        return true
+    end
+
+    return player:GetAttribute(<span class="hl-green">"BRivals_RoundActive"</span>) == true
+end
+
+local function suppressUnexpectedRoundRespawn(player, character)
+    if not shouldSuppressRoundRespawn(player) then
+        return false
+    end
+
+    Players.CharacterAutoLoads = false
+    player:SetAttribute(<span class="hl-green">"MatchDead"</span>, true)
+    player:SetAttribute(<span class="hl-green">"MatchAllowRoundRespawn"</span>, false)
+
+    local spectator = safeRequire(<span class="hl-green">"SpectatorService"</span>)
+    if spectator and spectator.Enter then
+        spectator.Enter(player, <span class="hl-green">"Death"</span>)
+    end
+
+    task.defer(function()
+        if character and character.Parent
+        and shouldSuppressRoundRespawn(player) then
+            character:Destroy()
+        end
+    end)
+
+    return true
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MatchSessionService</strong>
+              <span>Loadout Recovery</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Match packets, attributes, and stored data resolve the equipped stand</span>
+local function resolveEquippedStand(player, info)
+    local standId = type(info) == <span class="hl-green">"table"</span>
+        and info.EquippedStand
+        or nil
+
+    if type(standId) == <span class="hl-green">"string"</span>
+    and StandRegistry.GetStand(standId) then
+        return standId
+    end
+
+    if player then
+        local attrStand = player:GetAttribute(<span class="hl-green">"EquippedStand"</span>)
+
+        if type(attrStand) == <span class="hl-green">"string"</span>
+        and StandRegistry.GetStand(attrStand) then
+            return attrStand
+        end
+    end
+
+    local PlayerService = safeRequireFromServer(<span class="hl-green">"PlayerService"</span>)
+    if PlayerService and player then
+        local data = PlayerService.GetPlayerData(player)
+        local dataStand = data and data.EquippedStand
+
+        if type(dataStand) == <span class="hl-green">"string"</span>
+        and StandRegistry.GetStand(dataStand) then
+            return dataStand
+        end
+    end
+
+    return nil
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>RewardService</strong>
+              <span>Idempotent Rewards</span>
+            </div>
+            <pre><code><span class="hl-gray">-- RewardHistory prevents double-awarding the same match</span>
+local function persistReward(userId, reward)
+    local ok, err
+
+    for attempt = <span class="hl-red">1</span>, <span class="hl-red">5</span> do
+        ok, err = pcall(function()
+            profileStore:UpdateAsync(tostring(userId), function(old)
+                old = type(old) == <span class="hl-green">"table"</span> and old or {}
+
+                old.Coins = math.max(
+                    <span class="hl-red">0</span>,
+                    math.floor(tonumber(old.Coins) or <span class="hl-red">0</span>)
+                )
+
+                old.Elo = math.clamp(
+                    math.floor(tonumber(old.Elo) or reward.OldElo or <span class="hl-red">1000</span>),
+                    <span class="hl-red">0</span>,
+                    <span class="hl-red">100000</span>
+                )
+
+                old.RewardHistory =
+                    type(old.RewardHistory) == <span class="hl-green">"table"</span>
+                    and old.RewardHistory
+                    or {}
+
+                local key = tostring(reward.MatchToken)
+                    .. <span class="hl-green">":"</span>
+                    .. tostring(userId)
+
+                if old.RewardHistory[key] then
+                    return old
+                end
+
+                old.RewardHistory[key] = os.time()
+                old.Coins += reward.Coins
+                old.Elo = math.clamp(
+                    old.Elo + reward.EloDelta,
+                    <span class="hl-red">0</span>,
+                    <span class="hl-red">100000</span>
+                )
+
+                return old
+            end)
+        end)
+
+        if ok then return true end
+        task.wait(math.min(<span class="hl-red">0.8</span> * attempt, <span class="hl-red">4</span>))
+    end
+
+    warn(<span class="hl-green">"[RewardService] Persist failed"</span>, userId, err)
+    return false
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>RewardService</strong>
+              <span>Elo Delta Formula</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Elo adjusts based on expected win probability</span>
+local function eloDelta(myAvg, oppAvg, won)
+    myAvg = math.clamp(
+        tonumber(myAvg) or <span class="hl-red">1000</span>,
+        <span class="hl-red">0</span>,
+        <span class="hl-red">100000</span>
+    )
+
+    oppAvg = math.clamp(
+        tonumber(oppAvg) or <span class="hl-red">1000</span>,
+        <span class="hl-red">0</span>,
+        <span class="hl-red">100000</span>
+    )
+
+    local expected =
+        <span class="hl-red">1</span> / (<span class="hl-red">1</span> + <span class="hl-red">10</span> ^ ((oppAvg - myAvg) / <span class="hl-red">400</span>))
+
+    local score = won and <span class="hl-red">1</span> or <span class="hl-red">0</span>
+    local raw = <span class="hl-red">60</span> * (score - expected)
+
+    local delta = math.floor(
+        raw + (raw &gt;= <span class="hl-red">0</span> and <span class="hl-red">0.5</span> or -<span class="hl-red">0.5</span>)
+    )
+
+    if won then
+        return math.clamp(delta, <span class="hl-red">20</span>, <span class="hl-red">100</span>)
+    end
+
+    return math.clamp(delta, -<span class="hl-red">100</span>, -<span class="hl-red">20</span>)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>RewardService</strong>
+              <span>Anti-Abuse Scaling</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Repeated friend/duel farming can scale Elo changes down</span>
+local ELO_ABUSE_WINDOW_SECONDS = <span class="hl-red">24</span> * <span class="hl-red">60</span> * <span class="hl-red">60</span>
+local ELO_ABUSE_MULTIPLIERS = { <span class="hl-red">1</span>, <span class="hl-red">0.6</span>, <span class="hl-red">0.3</span>, <span class="hl-red">0</span> }
+
+local function readAbuseRecord(key, now)
+    local ok, data = pcall(function()
+        return eloAbuseStore:GetAsync(key)
+    end)
+
+    if not ok or type(data) ~= <span class="hl-green">"table"</span> then
+        return { Count = <span class="hl-red">0</span>, LastAt = <span class="hl-red">0</span> }
+    end
+
+    local lastAt = tonumber(data.LastAt) or <span class="hl-red">0</span>
+    local count = tonumber(data.Count) or <span class="hl-red">0</span>
+
+    if now - lastAt &gt;= ELO_ABUSE_WINDOW_SECONDS then
+        count = <span class="hl-red">0</span>
+    end
+
+    return {
+        Count = math.max(<span class="hl-red">0</span>, math.floor(count)),
+        LastAt = lastAt,
+    }
+end
+
+local function scaleEloDelta(delta, multiplier)
+    if multiplier &lt;= <span class="hl-red">0</span> then return <span class="hl-red">0</span> end
+
+    local scaled = (tonumber(delta) or <span class="hl-red">0</span>) * multiplier
+
+    if scaled &gt;= <span class="hl-red">0</span> then
+        return math.floor(scaled + <span class="hl-red">0.5</span>)
+    end
+
+    return math.ceil(scaled - <span class="hl-red">0.5</span>)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>RewardService</strong>
+              <span>Match Reward Build</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Rewards include coins, XP, Elo, MVP bonus, and result data</span>
+local reward = {
+    MatchToken = session.MatchToken,
+    UserId = info.UserId,
+    TeamId = info.TeamId,
+
+    Won = won,
+    MatchResult = won and <span class="hl-green">"Win"</span> or <span class="hl-green">"Loss"</span>,
+
+    XPGain = LevelRewardConfig.GetXPForMatch(matchResult),
+    XPPerLevel = LevelRewardConfig.XPPerLevel,
+
+    EloDelta = delta,
+    Coins = coins,
+
+    OldElo = info.Elo or <span class="hl-red">1000</span>,
+    NewElo = math.clamp(
+        (info.Elo or <span class="hl-red">1000</span>) + delta,
+        <span class="hl-red">0</span>,
+        <span class="hl-red">100000</span>
+    ),
+
+    IsMVP = isMVP == true,
+    MVPBonusPercent =
+        isMVP and ((mvp and mvp.BonusPercent) or <span class="hl-red">0</span>) or <span class="hl-red">0</span>,
+}
+
+if eloAbuseInfo then
+    reward.EloAbuseApplied = true
+    reward.EloMultiplierPercent = eloAbuseInfo.Percent
+    reward.EloOriginalDelta = originalDelta
+    reward.EloAbuseMessage = eloAbuseInfo.Message
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MobileCombatControls</strong>
+              <span>Mobile Action Gate</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Mobile inputs respect menus, lobby state, cooldowns, and combat locks</span>
+local function requestAction(action)
+    if editMode
+    or isBlocking
+    or not ACTION_SET[action]
+    or menuLocked()
+    or lobbyBlocked() then
+        return
+    end
+
+    local character = player.Character
+
+    if player:GetAttribute(<span class="hl-green">"_IsGrabbed"</span>)
+    or (character and character:GetAttribute(<span class="hl-green">"_IsGrabbed"</span>)) then
+        InputEvent:FireServer(<span class="hl-green">"GrabEscape"</span>)
+        return
+    end
+
+    if player:GetAttribute(<span class="hl-green">"CombatLocked"</span>)
+    or player:GetAttribute(<span class="hl-green">"CannotAttack"</span>) then
+        return
+    end
+
+    local stand = player:GetAttribute(<span class="hl-green">"EquippedStand"</span>)
+    if not stand or stand == <span class="hl-green">""</span> then return end
+
+    if cooldownActive(stand, action) then
+        if _G.ShowCooldownBlockedCue then
+            _G.ShowCooldownBlockedCue({ Duration = <span class="hl-red">0.22</span> })
+        end
+        return
+    end
+
+    notifyTutorialMobileAction(action, true)
+    InputEvent:FireServer(action, aimPayload())
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MobileCombatControls</strong>
+              <span>Camera Aim Payload</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Ability requests include camera direction without trusting client damage</span>
+local function aimPayload()
+    local cam = workspace.CurrentCamera
+
+    if not cam then
+        return nil
+    end
+
+    return {
+        Direction = cam.CFrame.LookVector,
+        CameraOrigin = cam.CFrame.Position,
+    }
+end
+
+local function requestAction(action)
+    if not ACTION_SET[action] then return end
+
+    local stand = player:GetAttribute(<span class="hl-green">"EquippedStand"</span>)
+    if not stand or stand == <span class="hl-green">""</span> then return end
+
+    if cooldownActive(stand, action) then
+        return
+    end
+
+    InputEvent:FireServer(action, aimPayload())
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MobileCombatControls</strong>
+              <span>Custom Layout Persistence</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Mobile button positions are versioned and reset safely</span>
+local DEFAULT_LAYOUT_VERSION = <span class="hl-red">4</span>
+
+local DEFAULT_POSITIONS = {
+    SprintButton = { XScale = <span class="hl-red">0.150</span>, YScale = <span class="hl-red">0.380</span> },
+    ShiftLockButton = { XScale = <span class="hl-red">0.150</span>, YScale = <span class="hl-red">0.620</span> },
+
+    Ability_X = { XScale = <span class="hl-red">0.675</span>, YScale = <span class="hl-red">0.380</span> },
+    DodgeRollButton = { XScale = <span class="hl-red">0.805</span>, YScale = <span class="hl-red">0.380</span> },
+    Ability_M2 = { XScale = <span class="hl-red">0.935</span>, YScale = <span class="hl-red">0.380</span> },
+
+    Ability_R = { XScale = <span class="hl-red">0.675</span>, YScale = <span class="hl-red">0.560</span> },
+    Ability_M1 = { XScale = <span class="hl-red">0.805</span>, YScale = <span class="hl-red">0.560</span> },
+    BlockButton = { XScale = <span class="hl-red">0.935</span>, YScale = <span class="hl-red">0.560</span> },
+
+    Ability_E = { XScale = <span class="hl-red">0.675</span>, YScale = <span class="hl-red">0.740</span> },
+    Ability_T = { XScale = <span class="hl-red">0.805</span>, YScale = <span class="hl-red">0.740</span> },
+    GrabButton = { XScale = <span class="hl-red">0.935</span>, YScale = <span class="hl-red">0.740</span> },
+}
+
+local function ensureSettings()
+    settings.MobileControls =
+        type(settings.MobileControls) == <span class="hl-green">"table"</span>
+        and settings.MobileControls
+        or {}
+
+    settings.MobileControls.Positions =
+        type(settings.MobileControls.Positions) == <span class="hl-green">"table"</span>
+        and settings.MobileControls.Positions
+        or {}
+
+    local layoutVersion = tonumber(settings.MobileControls.LayoutVersion)
+
+    if layoutVersion ~= DEFAULT_LAYOUT_VERSION then
+        settings.MobileControls.Positions = deepCopy(DEFAULT_POSITIONS)
+        settings.MobileControls.LayoutVersion = DEFAULT_LAYOUT_VERSION
+    end
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>MobileCombatControls</strong>
+              <span>Move Name Abbreviation</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Ability buttons shorten roster-specific move names</span>
+local SKIP_WORDS = {
+    coffee = true,
+    breathing = true,
+    ability = true,
+    primary = true,
+    secondary = true,
+    ultimate = true,
+    move = true,
+    the = true,
+    a = true,
+    an = true,
+    of = true,
+    [<span class="hl-green">"and"</span>] = true,
+}
+
+local function abbreviateMoveName(action)
+    local raw = rawMoveName(action)
+
+    if not raw or raw == <span class="hl-green">""</span> or raw == action then
+        return <span class="hl-green">"..."</span>
+    end
+
+    local words = {}
+
+    for word in cleanMoveName(raw):gmatch(<span class="hl-green">"[%wÀ-ÿ']+"</span>) do
+        local lower = word:lower()
+
+        if not SKIP_WORDS[lower]
+        and lower ~= action:lower() then
+            table.insert(words, word)
+        end
+    end
+
+    local chosen = words[#words] or words[<span class="hl-red">1</span>] or raw
+    chosen = tostring(chosen):gsub(<span class="hl-green">"[^%wÀ-ÿ']"</span>, <span class="hl-green">""</span>)
+
+    if #chosen &gt; <span class="hl-red">8</span> then
+        chosen = chosen:sub(<span class="hl-red">1</span>, <span class="hl-red">8</span>)
+    end
+
+    return chosen:upper()
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>StandHUDWatchdog</strong>
+              <span>HUD Self-Healing</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Rebuilds the ability HUD if it goes missing or stale</span>
+local HUD_NAME = <span class="hl-green">"StandHUDGui"</span>
+local CHECK_INTERVAL = <span class="hl-red">1.5</span>
+local STALE_AFTER = <span class="hl-red">6</span>
+
+local function cloneFresh(reason)
+    local existing = playerGui:FindFirstChild(HUD_NAME)
+    if existing then
+        existing:Destroy()
+    end
+
+    local template = StarterGui:FindFirstChild(HUD_NAME)
+
+    if not template then
+        warn(<span class="hl-green">"[StandHUDWatchdog] Missing HUD template"</span>, reason)
+        return nil
+    end
+
+    local clone = template:Clone()
+    clone.ResetOnSpawn = false
+    clone.Enabled = true
+    clone.Parent = playerGui
+
+    _G.BRivalsHUDAlive = tick()
+
+    warn(<span class="hl-green">"[StandHUDWatchdog] Rebuilt Stand HUD"</span>, reason)
+    return clone
+end
+
+local function ensureHud(reason)
+    local hud = playerGui:FindFirstChild(HUD_NAME)
+
+    if not hud then
+        return cloneFresh(reason or <span class="hl-green">"missing"</span>)
+    end
+
+    local hasPanels =
+        hud:FindFirstChild(<span class="hl-green">"ControlsPanel"</span>) ~= nil
+        and hud:FindFirstChild(<span class="hl-green">"CooldownsPanel"</span>) ~= nil
+
+    local alive = tonumber(_G.BRivalsHUDAlive) or <span class="hl-red">0</span>
+
+    if not hasPanels and tick() - alive &gt; STALE_AFTER then
+        return cloneFresh(reason or <span class="hl-green">"controller-stale"</span>)
+    end
+
+    return hud
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>StandHUDWatchdog</strong>
+              <span>Respawn Recovery</span>
+            </div>
+            <pre><code><span class="hl-gray">-- HUD is rechecked when stand attributes change</span>
+ensureHud(<span class="hl-green">"boot"</span>)
+
+player:GetAttributeChangedSignal(<span class="hl-green">"EquippedStand"</span>):Connect(function()
+    task.defer(function()
+        ensureHud(<span class="hl-green">"equipped-stand-changed"</span>)
+    end)
+end)
+
+player:GetAttributeChangedSignal(<span class="hl-green">"Stand"</span>):Connect(function()
+    task.defer(function()
+        ensureHud(<span class="hl-green">"stand-changed"</span>)
+    end)
+end)
+
+while true do
+    ensureHud(<span class="hl-green">"heartbeat"</span>)
+    task.wait(CHECK_INTERVAL)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>StandService</strong>
+              <span>Unified Roll Categories</span>
+            </div>
+            <pre><code><span class="hl-gray">-- One gacha pipeline can roll cosmetics, stands, perks, and pets</span>
+local ROLL_CATEGORIES = {
+    { id = <span class="hl-green">"Cosmetic"</span>, weight = <span class="hl-red">75</span> },
+    { id = <span class="hl-green">"Stand"</span>,    weight = <span class="hl-red">5</span> },
+    { id = <span class="hl-green">"Perk"</span>,     weight = <span class="hl-red">20</span> },
+    { id = <span class="hl-green">"Pet"</span>,      weight = <span class="hl-red">0</span> },
+}
+
+local function pickCategory()
+    local totalWeight = <span class="hl-red">0</span>
+
+    for _, cat in ipairs(ROLL_CATEGORIES) do
+        totalWeight += cat.weight
+    end
+
+    if totalWeight &lt;= <span class="hl-red">0</span> then
+        return <span class="hl-green">"Stand"</span>
+    end
+
+    local roll = math.random() * totalWeight
+    local cumulative = <span class="hl-red">0</span>
+
+    for _, cat in ipairs(ROLL_CATEGORIES) do
+        cumulative += cat.weight
+
+        if roll &lt;= cumulative then
+            return cat.id
+        end
+    end
+
+    return <span class="hl-green">"Stand"</span>
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>StandService</strong>
+              <span>Cosmetic / Pet Shared Pool</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Pets can live inside the same roll category as skins</span>
+local function buildPool(rarityName)
+    local pool = {}
+    local totalWeight = <span class="hl-red">0</span>
+
+    local cosmeticPool =
+        rarityName
+        and CosmeticRegistry.GetCosmeticRollPoolForRarity(rarityName)
+        or CosmeticRegistry.GetCosmeticRollPool()
+
+    local petPool =
+        rarityName
+        and PetRegistry.GetRollPoolForRarity(rarityName)
+        or PetRegistry.GetRollPool()
+
+    for _, entry in ipairs(cosmeticPool) do
+        table.insert(pool, {
+            kind = <span class="hl-green">"Cosmetic"</span>,
+            id = entry.cosmeticId,
+            weight = entry.weight,
+        })
+
+        totalWeight += entry.weight
+    end
+
+    for _, entry in ipairs(petPool) do
+        table.insert(pool, {
+            kind = <span class="hl-green">"Pet"</span>,
+            id = entry.petId,
+            weight = entry.weight,
+        })
+
+        totalWeight += entry.weight
+    end
+
+    return pool, totalWeight
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>StandService</strong>
+              <span>Duplicate Refunds</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Duplicate rolls return rarity-based currency</span>
+local DUPLICATE_REFUNDS = {
+    SPECIAL = <span class="hl-red">1000</span>,
+    LEGENDARY = <span class="hl-red">500</span>,
+    EPIC = <span class="hl-red">300</span>,
+    RARE = <span class="hl-red">200</span>,
+    UNCOMMON = <span class="hl-red">100</span>,
+    COMMON = <span class="hl-red">50</span>,
+}
+
+local function makeStandResult(standId, duplicate)
+    local cfg = StandRegistry.GetStand(standId)
+    local rarity = getStandRarity(standId)
+
+    return {
+        type = <span class="hl-green">"Stand"</span>,
+        id = standId,
+        rarity = rarity,
+        name = cfg and cfg.Name or standId,
+        color = cfg and cfg.Visuals and cfg.Visuals.AuraColor
+            or Color3.new(<span class="hl-red">1</span>, <span class="hl-red">1</span>, <span class="hl-red">1</span>),
+
+        standId = standId,
+        duplicate = duplicate == true,
+
+        refundCoins =
+            duplicate
+            and (DUPLICATE_REFUNDS[normalizeRarityKey(rarity)] or <span class="hl-red">0</span>)
+            or <span class="hl-red">0</span>,
+    }
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>PerkRegistry</strong>
+              <span>Data-Driven Perks</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Perks are registry entries, not hard-coded UI cases</span>
+local PERKS = {
+    QuickRecovery = {
+        Id = <span class="hl-green">"QuickRecovery"</span>,
+        Name = <span class="hl-green">"Quick Recovery"</span>,
+        IconText = <span class="hl-green">"QR"</span>,
+        Type = Type.Defense,
+        Rarity = Rarity.Rare,
+        Description =
+            <span class="hl-green">"Recover from hitstun and knockdown slightly faster."</span>,
+        RollWeight = <span class="hl-red">14</span>,
+        Effect = {
+            HitstunMultiplier = <span class="hl-red">0.9</span>,
+            KnockdownRecoveryMultiplier = <span class="hl-red">0.9</span>,
+        },
+    },
+
+    PerfectTiming = {
+        Id = <span class="hl-green">"PerfectTiming"</span>,
+        Name = <span class="hl-green">"Perfect Timing"</span>,
+        IconText = <span class="hl-green">"PT"</span>,
+        Type = Type.Utility,
+        Rarity = Rarity.Epic,
+        Description = <span class="hl-green">"Parry timing is slightly more forgiving."</span>,
+        RollWeight = <span class="hl-red">6</span>,
+        Effect = {
+            ParryWindowBonus = <span class="hl-red">0.035</span>,
+        },
+    },
+}</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>PerkRegistry</strong>
+              <span>Weighted Perk Roll</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Rarity and individual perk weights are separate decisions</span>
+PerkRegistry.RarityRollOdds = {
+    Common = <span class="hl-red">0</span>,
+    Uncommon = <span class="hl-red">0</span>,
+    Rare = <span class="hl-red">72</span>,
+    Epic = <span class="hl-red">23</span>,
+    Legendary = <span class="hl-red">5</span>,
+}
+
+function PerkRegistry.Get(perkId)
+    return PERKS[perkId]
+end
+
+function PerkRegistry.GetRollPoolForRarity(rarityName)
+    local pool = {}
+
+    for _, def in pairs(PERKS) do
+        if def.Rarity == rarityName
+        and def.RollWeight
+        and def.RollWeight &gt; <span class="hl-red">0</span> then
+            table.insert(pool, {
+                perkId = def.Id,
+                weight = def.RollWeight,
+            })
+        end
+    end
+
+    return pool
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>PetRegistry</strong>
+              <span>Client-Safe Pet Data</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Pet definitions are converted before reaching client UI</span>
+function PetRegistry.ToClient(def)
+    if type(def) == <span class="hl-green">"string"</span> then
+        def = PetRegistry.Get(def)
+    end
+
+    if not def then return nil end
+
+    return {
+        Id = def.Id,
+        Name = def.DisplayName,
+        DisplayName = def.DisplayName,
+
+        PetName = def.PetName,
+        SkinName = def.PetName,
+        Series = def.Series or <span class="hl-green">"Pets Series"</span>,
+
+        Rarity = def.Rarity or <span class="hl-green">"Rare"</span>,
+        Stand = def.Stand,
+        IconText = def.IconText,
+
+        Description =
+            <span class="hl-green">"A floating companion pet that follows you in combat."</span>,
+
+        color =
+            PetRegistry.RarityColors[def.Rarity]
+            or Color3.fromRGB(<span class="hl-red">95</span>, <span class="hl-red">175</span>, <span class="hl-red">255</span>),
+
+        Type = <span class="hl-green">"Pet"</span>,
+    }
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>ScoreboardReplication</strong>
+              <span>Live Scoreboard Payload</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Scoreboard entries are built from match session + MVP stats</span>
+local function buildPlayerStats()
+    local session = MatchSessionService.GetActiveSession()
+    if not session then return nil end
+
+    local mvpStats = MVPService.GetStats()
+    local playerList = {}
+
+    for _, info in ipairs(session.Players or {}) do
+        local player = Players:GetPlayerByUserId(info.UserId)
+        local stats = mvpStats[info.UserId] or {}
+
+        local isAlive = true
+
+        if player and player.Character then
+            local humanoid =
+                player.Character:FindFirstChildOfClass(<span class="hl-green">"Humanoid"</span>)
+
+            isAlive = humanoid and humanoid.Health &gt; <span class="hl-red">0</span>
+        end
+
+        table.insert(playerList, {
+            UserId = info.UserId,
+            Name = player and player.Name or info.Name,
+            TeamId = info.TeamId,
+            IsAlive = isAlive,
+            Kills = stats.Kills or <span class="hl-red">0</span>,
+            Assists = stats.Assists or <span class="hl-red">0</span>,
+            Damage = stats.Damage or <span class="hl-red">0</span>,
+        })
+    end
+
+    return {
+        Players = playerList,
+        Team1Score = session.Team1Score,
+        Team2Score = session.Team2Score,
+    }
+end</code></pre>
+          </article>
+
         </div>
       </div>
     </section>
@@ -2213,7 +3407,7 @@ end</code></pre>
     <section class="section wrap" id="metrics">
       <div class="section-head">
         <div>
-          <div class="eyebrow">Scanned Metrics</div>
+          <div class="eyebrow">Extracted Metrics</div>
           <h2>Numbers that support the hiring claim.</h2>
         </div>
         <p>
@@ -2226,7 +3420,7 @@ end</code></pre>
       <div class="metrics-table reveal">
         <div class="metric-row">
           <div class="metric-name">Total Code Assets</div>
-          <div class="metric-desc">Combined Script, LocalScript, and ModuleScript count across both scanned places.</div>
+          <div class="metric-desc">Combined Script, LocalScript, and ModuleScript count across both places.</div>
           <div class="metric-value">866</div>
         </div>
 
@@ -2308,14 +3502,16 @@ end</code></pre>
           <div class="metric-value">504 / 468</div>
         </div>
       </div>
-    </section>    <section class="section wrap">
+    </section>
+
+    <section class="section wrap">
       <div class="section-head">
         <div>
           <div class="eyebrow">Engineering Decisions</div>
           <h2>The details that make the work usable on a team.</h2>
         </div>
         <p>
-          A hiring page should not just say “I made systems.” It should show how I think:
+          A hiring page should not just say "I made systems." It should show how I think:
           clear authority boundaries, reusable services, predictable module structure, testable infrastructure,
           and client code that supports real Roblox players on real devices.
         </p>
@@ -2491,18 +3687,6 @@ end</code></pre>
       <div class="engage-grid">
         <article class="engage-card reveal">
           <div class="kicker">Option 01</div>
-          <h4>Single System Build</h4>
-          <div class="price">Fixed scope · Fixed price</div>
-          <p>For teams that need one system built right — combat, matchmaking, or a progression pipeline — without committing to ongoing work.</p>
-          <ul>
-            <li>Scoped deliverable with a clear definition of done</li>
-            <li>Architecture review before any code is written</li>
-            <li>Handoff documentation for your team</li>
-          </ul>
-        </article>
-
-        <article class="engage-card featured reveal">
-          <div class="kicker">Option 02</div>
           <h4>Embedded Contractor</h4>
           <div class="price">Weekly or monthly · Ongoing</div>
           <p>For studios actively shipping who need a systems programmer working alongside the rest of the team in Studio and on calls.</p>
@@ -2510,6 +3694,18 @@ end</code></pre>
             <li>Standups, sprint planning, and code review with your team</li>
             <li>Owns a feature area end-to-end across updates</li>
             <li>Available for live-ops fixes after launch</li>
+          </ul>
+        </article>
+
+        <article class="engage-card featured reveal">
+          <div class="kicker">Option 02</div>
+          <h4>Single System Build</h4>
+          <div class="price">Fixed scope · Fixed price</div>
+          <p>My preferred working enviroment, For teams that need one system (or preferabbly a couple) built right — combat, matchmaking, or a progression pipeline — without committing to ongoing work..</p>
+          <ul>
+            <li>Scoped deliverable with a clear definition of done</li>
+            <li>Architecture review before any code is written</li>
+            <li>Handoff documentation for your team</li>
           </ul>
         </article>
 
@@ -2527,45 +3723,7 @@ end</code></pre>
       </div>
     </section>
 
-    <section class="section wrap" id="faq">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">Frequently Asked</div>
-          <h2>Questions a hiring manager would actually ask.</h2>
-        </div>
-        <p>
-          If something below doesn't answer it, that's exactly what the contact form is for —
-          I'd rather get a question directly than have it go unasked.
-        </p>
-      </div>
-
-      <div class="faq-list reveal">
-        <details class="faq-item" open>
-          <summary>What's your availability right now?<span class="plus">+</span></summary>
-          <div class="faq-a">I'm currently open to new contract and full-time work. I can usually start scoping within a few days of an initial call, with capacity for a part-time engagement immediately and full-time within two weeks' notice to any existing commitment.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Do you work with small/solo teams, or only studios?<span class="plus">+</span></summary>
-          <div class="faq-a">Both. Solo developers usually need the most help with architecture decisions early, since those choices are expensive to undo later. Studios usually need someone who can slot into an existing codebase without breaking conventions the team already relies on. I scope the engagement differently depending on which one you are.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Can you work inside an existing codebase, or only greenfield?<span class="plus">+</span></summary>
-          <div class="faq-a">Existing codebases are most of what I do. The case study on this page is two connected places I built and maintained over time, not a from-scratch demo — I'm used to reading unfamiliar Luau, mapping its conventions, and extending it without a rewrite.</div>
-        </details>
-        <details class="faq-item">
-          <summary>What does the first call actually cover?<span class="plus">+</span></summary>
-          <div class="faq-a">A 20–30 minute conversation about what you're building, where the project is stuck or going next, and whether a fixed-scope build, an embedded engagement, or a full-time role fits best. No pricing pressure on that call — it's mainly so we both know if it's a fit before either of us commits time.</div>
-        </details>
-        <details class="faq-item">
-          <summary>Are you open to an NDA before sharing project details?<span class="plus">+</span></summary>
-          <div class="faq-a">Yes. I'm used to working under NDA and can sign one before any deeper discussion of your project's specifics, source code, or unreleased systems.</div>
-        </details>
-        <details class="faq-item">
-          <summary>What tools and workflow do you use day to day?<span class="plus">+</span></summary>
-          <div class="faq-a">Roblox Studio with Rojo for source control, Git for version history, and standard PR-based review when working inside a team repo. I'm comfortable adapting to whatever workflow your studio already has rather than asking a team to change theirs for me.</div>
-        </details>
-      </div>
-    </section>
+ 
 
     <section class="footer-cta" id="contact">
       <div class="wrap">
@@ -2578,12 +3736,12 @@ end</code></pre>
         </p>
 
         <div class="cta-row">
-          <a class="btn" href="mailto:your-email@example.com?subject=Roblox%20Systems%20Work">Email Me</a>
+          <a class="btn" href="mailto:mxttaz@gmail.com?subject=Roblox%20Systems%20Work">Email Me</a>
           <button class="btn secondary" type="button" id="copyEmailBtn">Copy Email Address</button>
           <a class="btn secondary" href="#top">Back To Top</a>
           <span class="copy-feedback" id="copyFeedback">Copied to clipboard</span>
         </div>
-        <p class="response-note">your-email@example.com · usually replies within 24 hours</p>
+        <p class="response-note">mxttaz@gmail.com · usually replies within 24 hours</p>
       </div>
     </section>
   </main>
@@ -2611,7 +3769,7 @@ end</code></pre>
 
   <div class="mobile-cta">
     <a class="btn secondary" href="#hire">What I Build</a>
-    <a class="btn" href="mailto:your-email@example.com?subject=Roblox%20Systems%20Work">Email Me</a>
+    <a class="btn" href="mailto:mxttaz@gmail.com?subject=Roblox%20Systems%20Work">Email Me</a>
   </div>
 
   <script>
@@ -2689,7 +3847,7 @@ end</code></pre>
     const copyFeedback = document.getElementById("copyFeedback");
     if (copyBtn) {
       copyBtn.addEventListener("click", async () => {
-        const email = "your-email@example.com";
+        const email = "mxttaz@gmail.com";
         try {
           await navigator.clipboard.writeText(email);
         } catch (err) {
