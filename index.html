@@ -1,620 +1,2713 @@
-cat > /mnt/user-data/outputs/portfolio.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alterna Studio — Roblox Systems Programmer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alterna Studio — Roblox Systems Programmer, Available For Hire</title>
+  <meta name="description" content="Roblox systems programmer specializing in server-authoritative combat, matchmaking, competitive match flow, and modular Luau architecture. Scanned from two production-scale Roblox Studio places — 866 code assets, 593 ModuleScripts." />
+  <meta name="theme-color" content="#050608" />
 
-  /* ============ TOKENS — RED ON WHITE ============ */
-  :root{
-    --bg:#ffffff;
-    --surface:#f7f7f7;
-    --surface-2:#f0f0f0;
-    --border:#e2e2e2;
-    --text-1:#151515;
-    --text-2:#5c5c5c;
-    --text-3:#9a9a9a;
-    --red:#e0202a;
-    --red-deep:#a8131b;
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Alterna Studio — Roblox Systems Programmer" />
+  <meta property="og:description" content="Server-authoritative combat, matchmaking, competitive match flow, and modular Luau architecture — proven across two production Roblox places." />
+  <meta name="twitter:card" content="summary_large_image" />
 
-    --font-display:'Space Grotesk',sans-serif;
-    --font-body:'Inter',sans-serif;
-    --font-mono:'JetBrains Mono',monospace;
-  }
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050608'/%3E%3Crect x='10' y='10' width='12' height='12' rx='2' fill='%23ff3144' transform='rotate(45 16 16)'/%3E%3C/svg%3E" />
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text-1);
-    font-family:var(--font-body);
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 
-  a{color:var(--red); text-decoration:none;}
-  a:hover{text-decoration:underline;}
-  a:focus-visible, button:focus-visible{
-    outline:2px solid var(--red);
-    outline-offset:3px;
-  }
+  <style>
+    :root {
+      --bg: #050608;
+      --bg-2: #080a0f;
+      --surface: #0d1017;
+      --surface-2: #131722;
+      --surface-3: #171d2b;
+      --border: #252b38;
+      --border-strong: #394254;
+      --text-1: #f6f7fb;
+      --text-2: #b7bfcc;
+      --text-3: #727d90;
+      --red: #ff3144;
+      --red-2: #b91727;
+      --red-soft: rgba(255, 49, 68, 0.11);
+      --blue: #7aa2ff;
+      --green: #55d88b;
+      --yellow: #ffc857;
+      --font-display: "Space Grotesk", sans-serif;
+      --font-body: "Inter", sans-serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
 
-  /* ============ SIGNATURE BACKDROP: BASEPLATE GRID ============ */
-  .floor{
-    position:fixed;
-    inset:0;
-    z-index:-1;
-    background-color:var(--bg);
-    background-image:
-      repeating-linear-gradient(0deg, var(--border) 0 1px, transparent 1px 64px),
-      repeating-linear-gradient(90deg, var(--border) 0 1px, transparent 1px 64px);
-    opacity:0.55;
-    mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 25%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 25%, transparent 80%);
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  /* ============ LAYOUT WRAPPERS ============ */
-  .wrap{
-    max-width:1100px;
-    margin:0 auto;
-    padding:0 24px;
-  }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  .section{ padding:88px 0; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 18% -10%, rgba(255, 49, 68, 0.2), transparent 34rem),
+        radial-gradient(circle at 88% 8%, rgba(122, 162, 255, 0.13), transparent 30rem),
+        linear-gradient(180deg, var(--bg), #07080c 38%, #050608);
+      color: var(--text-1);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
 
-  .eyebrow{
-    font-family:var(--font-mono);
-    font-size:12px;
-    letter-spacing:0.18em;
-    text-transform:uppercase;
-    color:var(--text-3);
-  }
+    a {
+      color: var(--red);
+      text-decoration: none;
+    }
 
-  /* ============ TOP BAR ============ */
-  .topbar{
-    position:sticky;
-    top:0;
-    z-index:10;
-    backdrop-filter:blur(10px);
-    background:rgba(255,255,255,0.82);
-    border-bottom:1px solid var(--border);
-  }
-  .topbar .wrap{
-    display:flex;
-    align-items:center;
-    padding:16px 24px;
-  }
-  .topbar .name{
-    font-family:var(--font-display);
-    font-weight:600;
-    font-size:15px;
-    color:var(--text-1);
-  }
+    a:hover {
+      text-decoration: underline;
+    }
 
-  /* ============ HERO ============ */
-  .hero{ padding:96px 0 0; }
-  .hero h1{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:clamp(48px,9vw,96px);
-    letter-spacing:-0.02em;
-    line-height:0.95;
-    margin:18px 0 24px;
-    color:var(--text-1);
-  }
-  .hero h1 span{color:var(--red);}
-  .hero .role{
-    font-family:var(--font-mono);
-    font-size:14px;
-    color:var(--text-2);
-    letter-spacing:0.04em;
-    margin-bottom:28px;
-  }
-  .hero p.lede{
-    max-width:620px;
-    font-size:17px;
-    color:var(--text-2);
-    margin-bottom:0;
-  }
+    ::selection {
+      background: var(--red);
+      color: #ffffff;
+    }
 
-  .stat-strip{
-    margin-top:64px;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    border-top:1px solid var(--border);
-    border-bottom:1px solid var(--border);
-  }
-  .stat{
-    padding:24px 8px;
-    text-align:center;
-    border-right:1px solid var(--border);
-  }
-  .stat:last-child{border-right:none;}
-  .stat .num{
-    font-family:var(--font-mono);
-    font-weight:700;
-    font-size:clamp(22px,4vw,34px);
-    color:var(--red);
-  }
-  .stat .label{
-    font-family:var(--font-mono);
-    font-size:10px;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--text-3);
-    margin-top:6px;
-  }
+    .floor {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+      background-size: 58px 58px;
+      mask-image: radial-gradient(ellipse 80% 65% at 50% 10%, black, transparent 78%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 10%, black, transparent 78%);
+    }
 
-  /* ============ PROJECT INTRO ============ */
-  .project-intro h2{
-    font-family:var(--font-display);
-    font-size:clamp(26px,4vw,38px);
-    margin-bottom:14px;
-    line-height:1.15;
-    max-width:780px;
-  }
-  .project-intro p{
-    max-width:700px;
-    color:var(--text-2);
-    font-size:16px;
-  }
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.055;
+      background-image: radial-gradient(#fff 1px, transparent 1px);
+      background-size: 4px 4px;
+    }
 
-  /* ============ SPOTLIGHT BADGE ============ */
-  .spotlight-badge{
-    display:inline-flex;
-    align-items:center;
-    font-family:var(--font-mono);
-    font-size:11px;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--red);
-    border:1px solid var(--red);
-    padding:5px 10px;
-    border-radius:3px;
-    margin-bottom:14px;
-  }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-  /* ============ SPOTLIGHT SECTIONS ============ */
-  .spotlight{
-    padding:64px 0;
-    border-top:1px solid var(--border);
-  }
+    .section {
+      padding: 92px 0;
+    }
 
-  .spotlight-top{
-    display:grid;
-    grid-template-columns:1.1fr 1fr;
-    gap:48px;
-    align-items:center;
-    opacity:0;
-    transform:translateY(16px);
-    transition:opacity 0.6s ease, transform 0.6s ease;
-  }
-  .spotlight-top.in-view{ opacity:1; transform:translateY(0); }
-  .spotlight-top.reverse{ grid-template-columns:1fr 1.1fr; }
-  .spotlight-top.reverse .spotlight-media{ order:2; }
-  .spotlight-top.reverse .spotlight-content{ order:1; }
+    .eyebrow,
+    .kicker {
+      font-family: var(--font-mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: var(--text-3);
+    }
 
-  .spotlight-media{
-    position:relative;
-    aspect-ratio:16/10;
-    background:var(--surface);
-    border:1px solid var(--border);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:18px;
-  }
-  .spotlight-media .frame-label{
-    font-family:var(--font-mono);
-    font-size:11px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--text-3);
-    text-align:center;
-  }
-  .corner{
-    position:absolute;
-    width:22px; height:22px;
-    border:2px solid var(--red);
-    opacity:0.8;
-  }
-  .corner.tl{top:10px; left:10px; border-right:none; border-bottom:none;}
-  .corner.tr{top:10px; right:10px; border-left:none; border-bottom:none;}
-  .corner.bl{bottom:10px; left:10px; border-right:none; border-top:none;}
-  .corner.br{bottom:10px; right:10px; border-left:none; border-top:none;}
+    .kicker {
+      color: var(--red);
+      margin-bottom: 12px;
+    }
 
-  .spotlight-content h3{
-    font-family:var(--font-display);
-    font-size:24px;
-    margin:0 0 10px;
-  }
-  .spotlight-content .lede{
-    color:var(--text-1);
-    font-size:15.5px;
-    margin-bottom:12px;
-  }
-  .spotlight-content .tech{
-    color:var(--text-2);
-    font-size:14.5px;
-    margin-bottom:0;
-  }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(5, 6, 8, 0.78);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
 
-  /* ============ DETAIL GRID (sub-features) ============ */
-  .detail-grid{
-    margin-top:44px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:32px 40px;
-  }
-  .detail-grid.cols-3{ grid-template-columns:repeat(3,1fr); }
-  .detail-card{
-    border-top:2px solid var(--red);
-    padding-top:14px;
-  }
-  .detail-card h4{
-    font-family:var(--font-mono);
-    font-size:12.5px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--text-1);
-    margin:0 0 8px;
-  }
-  .detail-card p{
-    font-size:14px;
-    color:var(--text-2);
-    margin:0;
-  }
+    .topbar .wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 15px 24px;
+    }
 
-  .file-tags{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:24px;
-  }
-  .file-tags span{
-    font-family:var(--font-mono);
-    font-size:11px;
-    color:var(--text-2);
-    border:1px solid var(--border);
-    padding:4px 8px;
-    border-radius:3px;
-    background:var(--surface);
-  }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--text-1);
+    }
 
-  /* ============ MORE PROJECTS ============ */
-  .more-card{
-    border:1px dashed var(--border);
-    padding:48px;
-    text-align:center;
-    color:var(--text-3);
-    font-family:var(--font-mono);
-    font-size:13px;
-    letter-spacing:0.05em;
-  }
-  .pulse{ animation: pulse 2.4s ease-in-out infinite; }
-  @keyframes pulse{ 0%,100%{opacity:0.5;} 50%{opacity:1;} }
+    .brand:hover {
+      text-decoration: none;
+    }
 
-  /* ============ FOOTER ============ */
-  footer{
-    border-top:1px solid var(--border);
-    padding:48px 0 64px;
-    color:var(--text-3);
-    font-size:13px;
-  }
+    .brand-mark {
+      width: 13px;
+      height: 13px;
+      background: linear-gradient(135deg, var(--red), #ff7582);
+      transform: rotate(45deg);
+      box-shadow: 0 0 22px rgba(255, 49, 68, 0.65);
+    }
 
-  /* ============ RESPONSIVE ============ */
-  @media (max-width:760px){
-    .spotlight-top, .spotlight-top.reverse{ grid-template-columns:1fr; }
-    .spotlight-top.reverse .spotlight-media{ order:1; }
-    .spotlight-top.reverse .spotlight-content{ order:2; }
-    .detail-grid, .detail-grid.cols-3{ grid-template-columns:1fr; }
-    .stat-strip{ grid-template-columns:repeat(2,1fr); }
-    .stat:nth-child(2){ border-right:none; }
-  }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
 
-  /* ============ MOTION SAFETY ============ */
-  @media (prefers-reduced-motion: reduce){
-    *{ animation:none !important; transition:none !important; }
-    .spotlight-top{ opacity:1; transform:none; }
-  }
+    .nav a {
+      color: var(--text-2);
+    }
 
-</style>
+    .nav a:hover {
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 108px 0 44px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 60px;
+      align-items: end;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(46px, 8vw, 98px);
+      line-height: 0.9;
+      letter-spacing: -0.055em;
+      margin: 18px 0 24px;
+      max-width: 920px;
+    }
+
+    .hero h1 span {
+      color: var(--red);
+    }
+
+    .role {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-2);
+      letter-spacing: 0.04em;
+      margin-bottom: 24px;
+    }
+
+    .lede {
+      max-width: 780px;
+      font-size: 18px;
+      color: var(--text-2);
+      margin: 0 0 14px;
+    }
+
+    .lede strong {
+      color: var(--text-1);
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .response-note {
+      margin: 14px 2px 0;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-3);
+      letter-spacing: 0.02em;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid var(--red);
+      background: var(--red);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 6px;
+      box-shadow: 0 10px 35px rgba(255, 49, 68, 0.18);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--text-1);
+      border-color: var(--border-strong);
+      box-shadow: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+
+    .hero-card {
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
+        var(--surface);
+      padding: 24px;
+      position: relative;
+      border-radius: 16px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.36);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      pointer-events: none;
+    }
+
+    .hero-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card h2 {
+      font-family: var(--font-display);
+      font-size: 25px;
+      line-height: 1.08;
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-card p {
+      margin: 0;
+      color: var(--text-2);
+      font-size: 14.5px;
+    }
+
+    .scan-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-2);
+    }
+
+    .scan-list div {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    .scan-list strong {
+      color: var(--text-1);
+    }
+
+    .stat-strip {
+      margin-top: 68px;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      border: 1px solid var(--border);
+      background: rgba(13, 16, 23, 0.78);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .stat {
+      padding: 23px 10px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child {
+      border-right: none;
+    }
+
+    .stat .num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: clamp(22px, 3vw, 34px);
+      color: var(--red);
+      line-height: 1;
+    }
+
+    .stat .label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-top: 8px;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 44px;
+      align-items: end;
+      margin-bottom: 44px;
+    }
+
+    .section-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 5vw, 54px);
+      letter-spacing: -0.035em;
+      line-height: 1.02;
+      margin: 0;
+    }
+
+    .section-head p {
+      color: var(--text-2);
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+        var(--surface);
+      padding: 22px;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), transparent);
+    }
+
+    .card h3 {
+      font-family: var(--font-display);
+      margin: 0 0 10px;
+      font-size: 21px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p {
+      color: var(--text-2);
+      margin: 0 0 16px;
+      font-size: 14.5px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--text-2);
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      border-radius: 999px;
+    }
+
+    .spotlight {
+      padding: 76px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .spotlight-top {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .spotlight-top.reverse {
+      grid-template-columns: 0.95fr 1.05fr;
+    }
+
+    .spotlight-top.reverse .media {
+      order: 2;
+    }
+
+    .spotlight-top.reverse .spotlight-copy {
+      order: 1;
+    }
+
+    .media {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 50% 30%, rgba(255, 49, 68, 0.18), transparent 35%),
+        linear-gradient(135deg, rgba(122, 162, 255, 0.11), transparent 42%),
+        var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    .media::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 28px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 28px);
+    }
+
+    .frame-label {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      text-align: center;
+    }
+
+    .corner {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--red);
+      z-index: 2;
+    }
+
+    .corner.tl {
+      top: 12px;
+      left: 12px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .corner.tr {
+      top: 12px;
+      right: 12px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .corner.bl {
+      bottom: 12px;
+      left: 12px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .corner.br {
+      bottom: 12px;
+      right: 12px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid rgba(255, 49, 68, 0.55);
+      background: var(--red-soft);
+      padding: 5px 10px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+
+    .spotlight-copy h3 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin: 0 0 12px;
+    }
+
+    .spotlight-copy .lead {
+      color: var(--text-1);
+      font-size: 16px;
+      margin: 0 0 12px;
+    }
+
+    .spotlight-copy .tech {
+      color: var(--text-2);
+      font-size: 14.5px;
+      margin: 0;
+    }
+
+    .detail-grid {
+      margin-top: 38px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px 34px;
+    }
+
+    .detail-grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .detail-card {
+      border-top: 2px solid var(--red);
+      padding-top: 14px;
+    }
+
+    .detail-card h4 {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 8px;
+    }
+
+    .detail-card p {
+      margin: 0;
+      color: var(--text-2);
+      font-size: 14px;
+    }
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .case-card {
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018)),
+        var(--surface);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 18% 0%, rgba(255, 49, 68, 0.12), transparent 22rem);
+      pointer-events: none;
+    }
+
+    .case-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .case-card h3 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+      margin: 0 0 12px;
+    }
+
+    .case-card p {
+      color: var(--text-2);
+      margin: 0 0 18px;
+      font-size: 14.5px;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mini-stat {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-family: var(--font-mono);
+      color: var(--red);
+      font-size: 21px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .mini-stat span {
+      display: block;
+      font-family: var(--font-mono);
+      color: var(--text-3);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.35;
+    }
+
+    .metrics-table {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.025);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 250px 1fr 160px;
+      gap: 18px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+
+    .metric-row:last-child {
+      border-bottom: none;
+    }
+
+    .metric-row .metric-name {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-1);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .metric-row .metric-desc {
+      color: var(--text-2);
+      font-size: 14px;
+    }
+
+    .metric-row .metric-value {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--red);
+      font-size: 18px;
+    }
+
+    .code-section {
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255, 49, 68, 0.16), transparent 30rem),
+        #07080b;
+      color: #f7f7f7;
+      margin: 72px 0;
+      padding: 68px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .code-section .eyebrow {
+      color: #8d96a8;
+    }
+
+    .code-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 5vw, 52px);
+      letter-spacing: -0.025em;
+      line-height: 1.02;
+      margin: 0 0 16px;
+    }
+
+    .code-section p {
+      color: #c5ccd8;
+      max-width: 800px;
+      margin: 0;
+    }
+
+    .code-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .code-card {
+      border: 1px solid #273040;
+      background: #0c0f16;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    .code-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid #273040;
+      padding: 12px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #aeb7c6;
+    }
+
+    .code-title strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      overflow: auto;
+      font-size: 11.5px;
+      line-height: 1.55;
+      color: #f2f2f2;
+      font-family: var(--font-mono);
+    }
+
+    .hl-red {
+      color: #ff6574;
+    }
+
+    .hl-green {
+      color: #72df9f;
+    }
+
+    .hl-blue {
+      color: #8aa8ff;
+    }
+
+    .hl-gray {
+      color: #8b96a8;
+    }
+
+    .timeline {
+      border-left: 2px solid var(--red);
+      padding-left: 28px;
+      display: grid;
+      gap: 26px;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -36px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      background: var(--bg);
+      border: 2px solid var(--red);
+      transform: rotate(45deg);
+      box-shadow: 0 0 18px rgba(255, 49, 68, 0.5);
+    }
+
+    .timeline-item h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin: 0 0 6px;
+    }
+
+    .timeline-item p {
+      margin: 0;
+      color: var(--text-2);
+    }
+
+    .footer-cta {
+      padding: 86px 0;
+      border-top: 1px solid var(--border);
+      background:
+        linear-gradient(135deg, rgba(255, 49, 68, 0.12), transparent 42%),
+        #07080b;
+    }
+
+    .footer-cta h2 {
+      font-family: var(--font-display);
+      font-size: clamp(34px, 6vw, 68px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin: 0 0 16px;
+      max-width: 930px;
+    }
+
+    .footer-cta p {
+      color: var(--text-2);
+      max-width: 760px;
+      margin: 0;
+      font-size: 17px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 34px 0 58px;
+      color: var(--text-3);
+      font-size: 13px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- Accessibility ---------- */
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 2px solid var(--red);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ---------- Scroll progress ---------- */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--red), #ff7582);
+      z-index: 50;
+      transition: width 0.08s linear;
+    }
+
+    /* ---------- Status pill ---------- */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 12px 6px 8px;
+      border-radius: 999px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(85, 216, 139, 0.18);
+      animation: pulse-dot 2.2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(85, 216, 139, 0.18); }
+      50% { box-shadow: 0 0 0 6px rgba(85, 216, 139, 0.06); }
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar .btn {
+      padding: 0 14px;
+      min-height: 36px;
+      font-size: 11px;
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      background: transparent;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 16px;
+      height: 1.5px;
+      background: var(--text-1);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(5.5px) rotate(45deg);
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-5.5px) rotate(-45deg);
+    }
+
+    .nav a {
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav a.active {
+      color: var(--text-1);
+    }
+
+    .nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -2px;
+      height: 1px;
+      background: var(--red);
+    }
+
+    /* ---------- Engagement options ---------- */
+    .engage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .engage-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .engage-card.featured {
+      border-color: rgba(255, 49, 68, 0.5);
+      background:
+        linear-gradient(180deg, rgba(255, 49, 68, 0.08), transparent 60%),
+        var(--surface);
+      position: relative;
+    }
+
+    .engage-card.featured::before {
+      content: "Most Common";
+      position: absolute;
+      top: -11px;
+      left: 22px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--red);
+      color: #fff;
+      padding: 4px 9px;
+      border-radius: 999px;
+    }
+
+    .engage-card h4 {
+      font-family: var(--font-display);
+      font-size: 19px;
+      margin: 4px 0 0;
+    }
+
+    .engage-card .price {
+      font-family: var(--font-mono);
+      color: var(--red);
+      font-size: 13px;
+    }
+
+    .engage-card p {
+      color: var(--text-2);
+      font-size: 14px;
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .engage-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 6px 0 0;
+      display: grid;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--text-2);
+    }
+
+    .engage-card li {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .engage-card li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      margin-top: 6px;
+      background: var(--red);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq-list {
+      display: grid;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .faq-item {
+      background: var(--surface);
+    }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 19px 22px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      color: var(--text-1);
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary .plus {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: var(--red);
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item[open] summary .plus {
+      transform: rotate(45deg);
+    }
+
+    .faq-item .faq-a {
+      padding: 0 22px 20px;
+      color: var(--text-2);
+      font-size: 14.5px;
+      max-width: 760px;
+    }
+
+    /* ---------- Footer ---------- */
+    .footer-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .social-row {
+      display: flex;
+      gap: 14px;
+    }
+
+    .social-row a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-2);
+    }
+
+    .social-row a:hover {
+      color: var(--text-1);
+      border-color: var(--border-strong);
+      text-decoration: none;
+    }
+
+    /* ---------- Sticky mobile CTA ---------- */
+    .mobile-cta {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 40;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(5, 6, 8, 0.92);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      gap: 10px;
+    }
+
+    .mobile-cta .btn {
+      flex: 1;
+    }
+
+    /* ---------- Copy email feedback ---------- */
+    .copy-feedback {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--green);
+      margin-left: 8px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .copy-feedback.show {
+      opacity: 1;
+    }
+
+    @media (max-width: 940px) {
+      .engage-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .mobile-cta {
+        display: flex;
+      }
+
+      body {
+        padding-bottom: 78px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        background: rgba(5, 6, 8, 0.97);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--border);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .nav.open {
+        max-height: 360px;
+      }
+
+      .nav a {
+        width: 100%;
+        padding: 14px 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .nav a.active::after {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: inline-flex;
+      }
+
+      .topbar .btn.contact-top {
+        display: none;
+      }
+    }
+
+    @media (max-width: 940px) {
+      .hero-grid,
+      .section-head,
+      .spotlight-top,
+      .spotlight-top.reverse,
+      .case-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .spotlight-top.reverse .media,
+      .spotlight-top.reverse .spotlight-copy {
+        order: initial;
+      }
+
+      .stat-strip {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .arch-grid,
+      .code-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-row .metric-value {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero {
+        padding-top: 74px;
+      }
+
+      .stat-strip,
+      .mini-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .detail-grid,
+      .detail-grid.cols-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="floor"></div>
+  <div class="noise"></div>
 
-<div class="floor"></div>
+  <div class="scroll-progress" id="scrollProgress"></div>
 
-<div class="topbar">
-  <div class="wrap">
-    <span class="name">Alterna Studio</span>
-  </div>
-</div>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="#top" aria-label="Alterna Studio portfolio home">
+        <span class="brand-mark"></span>
+        <span>Alterna Studio</span>
+      </a>
 
-<!-- HERO -->
-<section class="hero wrap">
-  <div class="eyebrow">Roblox Systems &amp; Combat Programmer</div>
-  <h1>BR<span>i</span>VALS</h1>
-  <div class="role">Roblox Studio · Luau · Server-Authoritative Architecture</div>
-  <p class="lede">A multiplayer ability-fighting framework — combat, progression, matchmaking, and a 17-character roster — built mostly solo, with the character roster co-developed alongside another scripter.</p>
+      <nav class="nav" id="primaryNav" aria-label="Portfolio navigation">
+        <a href="#hire" data-nav>Hire</a>
+        <a href="#case-study" data-nav>Case Study</a>
+        <a href="#systems" data-nav>Systems</a>
+        <a href="#code" data-nav>Code</a>
+        <a href="#metrics" data-nav>Metrics</a>
+        <a href="#faq" data-nav>FAQ</a>
+        <a href="#contact" data-nav>Contact</a>
+      </nav>
 
-  <div class="stat-strip">
-    <div class="stat"><div class="num">402</div><div class="label">Scripts &amp; Modules</div></div>
-    <div class="stat"><div class="num">87</div><div class="label">Remote Events</div></div>
-    <div class="stat"><div class="num">17</div><div class="label">Playable Characters</div></div>
-    <div class="stat"><div class="num">90+</div><div class="label">Ability Modules</div></div>
-  </div>
-</section>
-
-<!-- PROJECT INTRO -->
-<section class="section project-intro wrap">
-  <div class="eyebrow">Brainrot Rivals</div>
-  <h2>A Fully Functional Alternative Competitive Stand-Based Combat Game</h2>
-  <p>This portfolio is built mainly around me and my studio's upcoming game, Brainrot Rivals — a full client/server framework. A few examples that just scratch the surface: hit detection, blocking, and parries all live on the server; characters share a common ability architecture instead of duplicated, spaghetti-slop logic; and matches run through a real queue → round → reward pipeline with reconnect and forfeit handling. The full systems are broken down individually below.</p>
-</section>
-
-<!-- SPOTLIGHTS -->
-<main class="wrap">
-
-  <!-- SPOTLIGHT ONE -->
-  <section class="spotlight">
-    <div class="spotlight-top">
-      <div class="spotlight-media">
-        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-        <div class="frame-label">Drop gameplay clip / GIF here<br>(combat — blocks, parries, knockback)</div>
+      <div class="topbar-actions">
+        <span class="status-pill"><span class="status-dot"></span>Open to new roles</span>
+        <a class="btn contact-top" href="#contact">Contact</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primaryNav">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <div class="spotlight-content">
-        <span class="spotlight-badge">Spotlight One</span>
-        <h3>Combat Framework</h3>
-        <p class="lede">Real, responsive and immersive combat with stand-based abilities, blocking, parries, and grabs — all decided on the server to prevent exploits, A.K.A so it can't be faked from the client.</p>
-        <p class="tech">I built the server-authoritative combat layer covering damage application, hit detection, hit-stun, i-frames, knockback, blocking, parry / guard-break, recovery windows, combo gating, and team / friendly-fire filtering.</p>
-        <div class="file-tags">
-          <span>CombatService</span><span>BlockService</span><span>GrabService</span><span>BRivalsEngineCore</span><span>StandManager</span>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">Roblox Systems Programmer · Luau · Multiplayer Architecture</div>
+          <h1>I build Roblox systems teams can <span>ship</span> with.</h1>
+
+          <div class="role">
+            Server-authoritative combat · Matchmaking · Competitive match flow · Progression · UI controllers · Live-game architecture
+          </div>
+
+          <p class="lede">
+            I am a Roblox programmer focused on the technical foundation behind multiplayer games:
+            reliable combat, clean server authority, modular character frameworks, matchmaking pipelines,
+            persistent progression, mobile-ready client UX, and tools that make large projects easier to debug.
+          </p>
+
+          <p class="lede">
+            My strongest proof is a two-place Roblox fighting project built across
+            <strong>BRAINROT RIVALS</strong> and <strong>COMPETITIVE ALPHA</strong>.
+            I use it here as a technical case study — not as “look at my game,” but as evidence that I can
+            organize and maintain real Roblox systems at production scale.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn" href="#hire">What I Can Build</a>
+            <a class="btn secondary" href="#case-study">View Case Study</a>
+            <a class="btn secondary" href="#contact">Get In Touch</a>
+          </div>
+          <p class="response-note">Usually replies within 24 hours · Open to contract, contract-to-hire, and full-time roles</p>
+        </div>
+
+        <aside class="hero-card reveal">
+          <div class="kicker">Scanned From Two Active Roblox Studio Places</div>
+          <h2>Production-style systems, split across lobby and competitive environments.</h2>
+          <p>
+            The scanned projects include a main game/lobby/progression place and a separate competitive match
+            environment with round logic, scoring, reconnect flow, spectators, rewards, and match cleanup.
+          </p>
+
+          <div class="scan-list">
+            <div><span>Main place code assets</span><strong>464</strong></div>
+            <div><span>Competitive code assets</span><strong>402</strong></div>
+            <div><span>Total ModuleScripts</span><strong>593</strong></div>
+            <div><span>Playable character kits</span><strong>17</strong></div>
+            <div><span>Ability modules</span><strong>91</strong></div>
+            <div><span>Competitive match services</span><strong>27</strong></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="stat-strip reveal" aria-label="Scanned project statistics">
+        <div class="stat">
+          <div class="num">866</div>
+          <div class="label">Code Assets</div>
+        </div>
+        <div class="stat">
+          <div class="num">593</div>
+          <div class="label">ModuleScripts</div>
+        </div>
+        <div class="stat">
+          <div class="num">17</div>
+          <div class="label">Character Kits</div>
+        </div>
+        <div class="stat">
+          <div class="num">91</div>
+          <div class="label">Ability Modules</div>
+        </div>
+        <div class="stat">
+          <div class="num">27</div>
+          <div class="label">Match Services</div>
+        </div>
+        <div class="stat">
+          <div class="num">19</div>
+          <div class="label">Competitive Remotes</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="detail-grid">
-      <div class="detail-card">
-        <h4>Block &amp; Parry</h4>
-        <p>Making risky combat actually feel risky: land into a parry and you're stunned for a split second — for experienced players, that's all it takes to turn the fight.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Hit-Stun &amp; Endlag</h4>
-        <p>Every hit and whiffed attack carries real recovery time, so committing to an attack is a genuine risk — punishing a missed swing or following up on a landed hit is where actual skill expression happens.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Hit Detection &amp; Damage Application</h4>
-        <p>Every hit is validated server-side against hitboxes and attack data before any damage lands, so what you see connect is what actually counts — no client-side guesswork, no desync.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Friendly Fire Filtering</h4>
-        <p>Team-aware filtering keeps abilities from hitting your own teammates, so area attacks and crowd-control abilities stay useful without accidentally griefing your own team.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SPOTLIGHT TWO -->
-  <section class="spotlight">
-    <div class="spotlight-top reverse">
-      <div class="spotlight-media">
-        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-        <div class="frame-label">Drop gameplay clip / GIF here<br>(character roster &amp; abilities)</div>
-      </div>
-      <div class="spotlight-content">
-        <span class="spotlight-badge">Spotlight Two</span>
-        <h3>Character &amp; Ability System</h3>
-        <p class="lede">17 playable characters, each with a full kit of unique abilities, built on one shared framework instead of a massive buggy script.</p>
-        <p class="tech">I designed the shared controller / state / ability-module pattern every character follows, and personally built 10 of the 17 character kits (part of the project's ~90 total ability modules) on top of it; the remaining characters were built by another scripter using the same framework I built.</p>
-        <div class="file-tags">
-          <span>Controller</span><span>State</span><span>M1 / M2 / E / R / T / X modules</span>
+    <section class="section wrap" id="hire">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Hiring Summary</div>
+          <h2>I am useful when a Roblox game needs systems, not just scripts.</h2>
         </div>
+        <p>
+          I can work across server gameplay, client controllers, networking, match flow, progression, UI state,
+          debugging tools, mobile support, and content pipelines. My value is building features in a way that
+          other developers can keep extending instead of constantly rewriting.
+        </p>
       </div>
-    </div>
 
-    <div class="detail-grid cols-3">
-      <div class="detail-card">
-        <h4>Ability Uniqueness</h4>
-        <p>Each character has its own moveset, built around a distinct combat identity — no two kits feel the same, and no ability is just a recolored copy of another.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Visual Uniqueness</h4>
-        <p>Each character has its own cosmetics and skins, so swapping characters changes how the game looks and feels, not just what buttons do.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Scalable Roster</h4>
-        <p>Because every character follows the same controller / state / ability-module pattern, adding a new character means writing new abilities, not rewriting combat — the roster grew without the codebase getting messier.</p>
-      </div>
-    </div>
-  </section>
+      <div class="arch-grid">
+        <article class="card reveal">
+          <h3>Combat Systems</h3>
+          <p>
+            Server-authoritative damage, hitboxes, blocking, parries, grabs, recovery, stun, knockback,
+            cooldowns, iframes, combo windows, and responsive input handling.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Server Authority</span>
+            <span class="tag">Hit Detection</span>
+            <span class="tag">Input Buffering</span>
+            <span class="tag">Anti-Exploit Boundaries</span>
+          </div>
+        </article>
 
-  <!-- SPOTLIGHT THREE -->
-  <section class="spotlight">
-    <div class="spotlight-top">
-      <div class="spotlight-media">
-        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-        <div class="frame-label">Drop gameplay clip / GIF here<br>(gacha / inventory / cosmetics)</div>
+        <article class="card reveal">
+          <h3>Multiplayer Flow</h3>
+          <p>
+            Queue systems, match tickets, accept flow, teleport preparation, round state, scoring,
+            reconnects, forfeits, spectator mode, rewards, and post-match cleanup.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Matchmaking</span>
+            <span class="tag">MemoryStore</span>
+            <span class="tag">TeleportService</span>
+            <span class="tag">Round Services</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Game Architecture</h3>
+          <p>
+            Modular services, shared registries, character kit pipelines, remote organization,
+            client controllers, configs, fallback paths, and maintainable Luau structure.
+          </p>
+          <div class="tag-list">
+            <span class="tag">ModuleScripts</span>
+            <span class="tag">Service Boundaries</span>
+            <span class="tag">Shared Configs</span>
+            <span class="tag">Clean Remotes</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Progression & Economy</h3>
+          <p>
+            Player data, stands, cosmetics, pets, perks, coins, XP, level rewards, daily rewards,
+            shop flow, gacha flow, inventory UI, and ownership syncing.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Player Data</span>
+            <span class="tag">Inventory</span>
+            <span class="tag">Rewards</span>
+            <span class="tag">Cosmetics</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Client UX</h3>
+          <p>
+            Input, movement, camera, VFX, HUDs, mobile controls, scoreboards, spectator UI,
+            loading screens, onboarding, resolution scaling, and broken-state recovery.
+          </p>
+          <div class="tag-list">
+            <span class="tag">LocalScripts</span>
+            <span class="tag">HUD Controllers</span>
+            <span class="tag">Mobile Support</span>
+            <span class="tag">VFX Feedback</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>Debugging & Tooling</h3>
+          <p>
+            Server-created hitbox indicators, Studio-safe fallbacks, admin commands, test pads,
+            diagnostics, watchdog scripts, and isolated tutorial/training states.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Debug Visuals</span>
+            <span class="tag">Studio Fallbacks</span>
+            <span class="tag">Diagnostics</span>
+            <span class="tag">Admin Tools</span>
+          </div>
+        </article>
       </div>
-      <div class="spotlight-content">
-        <span class="spotlight-badge">Spotlight Three</span>
-        <h3>Gacha, Inventory &amp; Cosmetics</h3>
-        <p class="lede">A balanced roll-for-a-character economy, plus the inventory and cosmetics that show off what players unlock.</p>
-        <p class="tech">Built the rarity-pool rolling system for characters, cosmetics, perks, and pets, along with the inventory and rolling UI, live viewport previews, immersive cards with dynamic character poses showing off owned cosmetics, and cosmetic rig application on the player's character.</p>
-        <div class="file-tags">
-          <span>StandRegistry</span><span>CosmeticRegistry</span><span>InventoryControllerV2</span><span>RollStandController</span>
+    </section>
+
+    <section class="section wrap" id="case-study">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Technical Case Study</div>
+          <h2>Two connected places: one for game/lobby/progression, one for competitive matches.</h2>
         </div>
+        <p>
+          The strongest architectural decision in this project is the separation of responsibilities.
+          The main place handles player-facing systems like lobby, progression, stands, cosmetics, pets,
+          shops, onboarding, and queue entry. Competitive Alpha focuses on match execution: rounds,
+          scoring, state replication, reconnects, spectators, rewards, and cleanup.
+        </p>
       </div>
-    </div>
 
-    <div class="detail-grid">
-      <div class="detail-card">
-        <h4>Rarity-Weighted Rolls</h4>
-        <p>Characters, cosmetics, perks, and pets all roll from configured rarity pools, so the economy stays tunable from one place instead of hardcoded odds scattered across scripts.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Live Viewport Previews</h4>
-        <p>Every roll and inventory item renders in a real 3D viewport instead of a flat icon, so players see exactly what they're getting before they commit to using it.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Dynamic Pose Cards</h4>
-        <p>Inventory cards show each character posed dynamically with their equipped cosmetics applied, turning a plain item list into something that actually shows off what you've unlocked.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Cosmetic Rig Application</h4>
-        <p>Cosmetics apply directly onto the player's character rig in real time, so what's equipped in the menu is exactly what shows up in a match.</p>
-      </div>
-    </div>
-  </section>
+      <div class="case-grid">
+        <article class="case-card reveal">
+          <div class="kicker">Place 01 · Main Game</div>
+          <h3>BRAINROT RIVALS</h3>
+          <p>
+            Main place containing the combat framework, 17-character stand roster, lobby services,
+            queue preparation, progression systems, cosmetics, pets, onboarding, mobile controls,
+            and shared framework remotes.
+          </p>
 
-  <!-- SPOTLIGHT FOUR -->
-  <section class="spotlight">
-    <div class="spotlight-top reverse">
-      <div class="spotlight-media">
-        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-        <div class="frame-label">Drop gameplay clip / GIF here<br>(progression / rewards)</div>
+          <div class="tag-list">
+            <span class="tag">Combat Framework</span>
+            <span class="tag">17 Stands</span>
+            <span class="tag">Progression</span>
+            <span class="tag">Lobby Queue</span>
+            <span class="tag">Cosmetics</span>
+            <span class="tag">Mobile UX</span>
+          </div>
+
+          <div class="mini-stats">
+            <div class="mini-stat"><strong>464</strong><span>Code Assets</span></div>
+            <div class="mini-stat"><strong>322</strong><span>ModuleScripts</span></div>
+            <div class="mini-stat"><strong>91</strong><span>Abilities</span></div>
+          </div>
+        </article>
+
+        <article class="case-card reveal">
+          <div class="kicker">Place 02 · Competitive Match</div>
+          <h3>COMPETITIVE ALPHA</h3>
+          <p>
+            Dedicated competitive place containing match bootstrap logic, round services, scoring,
+            overtime, forfeit, reconnect, spectator, MVP, rewards, team filtering, spawn map logic,
+            and match cleanup.
+          </p>
+
+          <div class="tag-list">
+            <span class="tag">Round Service</span>
+            <span class="tag">Score Service</span>
+            <span class="tag">Reconnect</span>
+            <span class="tag">Spectator</span>
+            <span class="tag">Rewards</span>
+            <span class="tag">Cleanup</span>
+          </div>
+
+          <div class="mini-stats">
+            <div class="mini-stat"><strong>402</strong><span>Code Assets</span></div>
+            <div class="mini-stat"><strong>271</strong><span>ModuleScripts</span></div>
+            <div class="mini-stat"><strong>27</strong><span>Match Services</span></div>
+          </div>
+        </article>
       </div>
-      <div class="spotlight-content">
-        <span class="spotlight-badge">Spotlight Four</span>
-        <h3>Player Progression</h3>
-        <p class="lede">Saves, currency, XP, and daily rewards — the systems that make people come back tomorrow.</p>
-        <p class="tech">Built the DataStore-backed profile system handling inventory, character ownership, coins, XP / leveling, and daily and competitive reward application, with full client-side sync.</p>
-        <div class="file-tags">
-          <span>PlayerService</span><span>StandService</span><span>CosmeticService</span><span>PetService</span>
+    </section>
+
+    <section class="wrap" id="systems">
+      <section class="spotlight">
+        <div class="spotlight-top reveal">
+          <div class="media">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="frame-label">
+              Add combat showcase here<br />
+              server hitboxes · parry · recovery · knockback
+            </div>
+          </div>
+
+          <div class="spotlight-copy">
+            <span class="badge">System 01</span>
+            <h3>Server-authoritative combat framework</h3>
+            <p class="lead">
+              Combat is built around a clear trust boundary: the client can request actions, but the server owns outcomes.
+            </p>
+            <p class="tech">
+              The combat stack includes input buffering, recovery windows, hitboxes, damage, stun,
+              block/parry logic, grab checks, knockback, lobby restrictions, and server-created debug indicators.
+              The goal is to make combat feel responsive without letting exploiters control hit results.
+            </p>
+
+            <div class="tag-list" style="margin-top:18px;">
+              <span class="tag">BRivalsEngineCore</span>
+              <span class="tag">CombatService</span>
+              <span class="tag">BlockService</span>
+              <span class="tag">GrabService</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="detail-grid">
-      <div class="detail-card">
-        <h4>Persistent Profiles</h4>
-        <p>Every player's inventory, currency, and ownership data lives in a DataStore-backed profile that loads and saves reliably across sessions.</p>
-      </div>
-      <div class="detail-card">
-        <h4>XP &amp; Leveling</h4>
-        <p>Matches and objectives feed into a leveling system, giving players a reason to keep playing beyond just winning the current match.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Daily &amp; Competitive Rewards</h4>
-        <p>Daily login rewards and competitive-match rewards both run through the same reward-application pipeline, keeping payout logic consistent no matter where it's triggered from.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Client Sync</h4>
-        <p>Profile changes sync to the client immediately, so coins, XP, and unlocks update on screen the moment they happen — no refresh, no delay.</p>
-      </div>
-    </div>
-  </section>
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h4>Responsive Input Without Client Authority</h4>
+            <p>
+              M1 inputs can buffer during recovery for a short window, preserving combo feel while keeping
+              cooldown and recovery validation on the server.
+            </p>
+          </div>
 
-  <!-- SPOTLIGHT FIVE -->
-  <section class="spotlight">
-    <div class="spotlight-top">
-      <div class="spotlight-media">
-        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-        <div class="frame-label">Drop gameplay clip / GIF here<br>(matchmaking / rounds)</div>
-      </div>
-      <div class="spotlight-content">
-        <span class="spotlight-badge">Spotlight Five</span>
-        <h3>Competitive Matchmaking</h3>
-        <p class="lede">Real queues and real matches — lobby to round to scoreboard, with reconnect and forfeit handled instead of just breaking.</p>
-        <p class="tech">Built the full competitive flow: MemoryStore-backed lobby queues, match tickets, reserved-server teleportation, round lifecycle, scoring, MVP tracking, spectator mode, reconnect, and forfeit handling.</p>
-        <div class="file-tags">
-          <span>MatchmakingService</span><span>RoundService</span><span>ScoreService</span><span>ReconnectService</span>
+          <div class="detail-card">
+            <h4>Server-Created Debug Hitboxes</h4>
+            <p>
+              Hitbox indicators are generated by the server, so debugging reflects the same spatial checks
+              used by real gameplay.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Centralized Combat Restrictions</h4>
+            <p>
+              Lobby and tutorial restrictions are handled through dedicated services instead of fragile,
+              repeated checks inside every ability.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Extensible Gameplay Hooks</h4>
+            <p>
+              Combat can connect to progression systems such as pets, perks, rewards, and status effects
+              without turning each ability into a one-off script.
+            </p>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
 
-    <div class="detail-grid">
-      <div class="detail-card">
-        <h4>Queueing &amp; Match Tickets</h4>
-        <p>Lobby queues are backed by MemoryStore, with match tickets used to safely group players into a match without race conditions or duplicate joins.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Round Lifecycle &amp; Scoring</h4>
-        <p>Matches run through a full round lifecycle — start, scoring, win conditions — handled server-side so results can't be tampered with from the client.</p>
-      </div>
-      <div class="detail-card">
-        <h4>MVP &amp; Spectator Mode</h4>
-        <p>Standout performances get tracked and surfaced as MVP, and eliminated or disconnected players can drop into spectator mode instead of just sitting on a black screen.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Reconnect &amp; Forfeit Handling</h4>
-        <p>Dropped connections don't end the match — players can reconnect into their ongoing game, and matches that can't recover resolve cleanly through forfeit handling instead of breaking.</p>
-      </div>
-    </div>
-  </section>
+      <section class="spotlight">
+        <div class="spotlight-top reverse reveal">
+          <div class="media">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="frame-label">
+              Add character kit showcase here<br />
+              17 stands · 91 abilities · shared framework
+            </div>
+          </div>
 
-  <!-- SPOTLIGHT SIX -->
-  <section class="spotlight">
-    <div class="spotlight-top reverse">
-      <div class="spotlight-media">
-        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-        <div class="frame-label">Drop gameplay clip / GIF here<br>(HUD / input / VFX)</div>
-      </div>
-      <div class="spotlight-content">
-        <span class="spotlight-badge">Spotlight Six</span>
-        <h3>Client UX &amp; VFX</h3>
-        <p class="lede">Everything the player actually feels — inputs that respond instantly, hits that read clearly, a HUD that stays out of the way.</p>
-        <p class="tech">Built the input, movement, and VFX controllers along with the combat and status HUD, including mobile control support and combo / cooldown feedback.</p>
-        <div class="file-tags">
-          <span>InputHandler</span><span>MovementController</span><span>VFXController</span><span>StatusHUDController</span>
+          <div class="spotlight-copy">
+            <span class="badge">System 02</span>
+            <h3>Modular character and ability pipeline</h3>
+            <p class="lead">
+              Seventeen playable kits are built on a consistent controller, state, utility, and ability pattern.
+            </p>
+            <p class="tech">
+              Each stand has predictable server modules for core behavior and abilities. Ability modules use readable
+              names like M1, M2, E, R, T, and X variants, making the roster easier to expand, debug, balance,
+              and hand off to another developer.
+            </p>
+
+            <div class="tag-list" style="margin-top:18px;">
+              <span class="tag">17 Stands</span>
+              <span class="tag">91 Ability Modules</span>
+              <span class="tag">143 Stand Server Modules</span>
+              <span class="tag">Controller / State / Utility</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="detail-grid">
-      <div class="detail-card">
-        <h4>Responsive Input</h4>
-        <p>Inputs are read and predicted client-side for instant feedback, while the server stays the final authority — so combat feels snappy without sacrificing fairness.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Movement &amp; Mobile Controls</h4>
-        <p>Movement, dashes, and dodges work identically across keyboard and mobile touch controls, so the game plays the same regardless of platform.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Combat VFX Feedback</h4>
-        <p>Hits, blocks, and ability casts all get distinct visual feedback, so players can read what just happened in a fight without needing a tutorial pop-up to explain it.</p>
-      </div>
-      <div class="detail-card">
-        <h4>Status HUD</h4>
-        <p>Health, stamina, and cooldowns are always visible and update in real time, keeping players informed without cluttering the screen.</p>
-      </div>
-    </div>
-  </section>
+        <div class="detail-grid cols-3">
+          <div class="detail-card">
+            <h4>Repeatable Kit Structure</h4>
+            <p>
+              New characters can plug into the same combat services instead of duplicating hit detection,
+              cooldowns, damage logic, and state handling.
+            </p>
+          </div>
 
-</main>
+          <div class="detail-card">
+            <h4>Readable Ability Ownership</h4>
+            <p>
+              Ability module names make it clear which input owns which move, reducing onboarding time for
+              other programmers.
+            </p>
+          </div>
 
-<!-- MORE PROJECTS -->
-<section class="section wrap">
-  <div class="more-card pulse">[ More projects loading — check back soon ]</div>
-</section>
+          <div class="detail-card">
+            <h4>Unique Mechanics Without Chaos</h4>
+            <p>
+              The roster supports counters, rushdown, traps, projectiles, domains, freeze effects, infection,
+              steam forms, transformations, and utility-heavy kits through a shared pattern.
+            </p>
+          </div>
+        </div>
+      </section>
 
-<footer class="wrap">
-  <div>© 2026 Alterna Studio. Built in Roblox Studio.</div>
-</footer>
+      <section class="spotlight">
+        <div class="spotlight-top reveal">
+          <div class="media">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="frame-label">
+              Add queue / lobby showcase here<br />
+              queue zone · accept flow · teleport prep
+            </div>
+          </div>
 
-<script>
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const rows = document.querySelectorAll('.spotlight-top');
+          <div class="spotlight-copy">
+            <span class="badge">System 03</span>
+            <h3>Lobby matchmaking and queue preparation</h3>
+            <p class="lead">
+              The lobby side is responsible for preparing players cleanly before they enter a competitive server.
+            </p>
+            <p class="tech">
+              Queue zones, quick queue, match tickets, match packets, reservation services, accept flow,
+              teleport preparation, party flow, and lobby combat restrictions are split into focused services.
+              Queue storage uses an adapter pattern so MemoryStore can be used in live servers with a Studio-safe fallback.
+            </p>
 
-  if (prefersReducedMotion) {
-    rows.forEach(r => r.classList.add('in-view'));
-  } else {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in-view');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    rows.forEach(r => observer.observe(r));
+            <div class="tag-list" style="margin-top:18px;">
+              <span class="tag">MatchmakingService</span>
+              <span class="tag">QueueStoreAdapter</span>
+              <span class="tag">MatchAcceptService</span>
+              <span class="tag">TeleportPreparationService</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h4>Queue Adapter</h4>
+            <p>
+              Queue storage is abstracted behind a service so the project can use MemoryStore in production
+              while still remaining testable in Studio.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Accept Flow</h4>
+            <p>
+              Match found events route through an acceptance stage before teleport preparation, reducing
+              accidental joins and broken match starts.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Teleport Preparation</h4>
+            <p>
+              Match packets and teleport data are prepared before sending players into the competitive environment.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Party-Aware Lobby Services</h4>
+            <p>
+              Party and queue behavior live alongside lobby systems instead of being patched on as separate,
+              disconnected scripts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="spotlight">
+        <div class="spotlight-top reverse reveal">
+          <div class="media">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="frame-label">
+              Add match flow showcase here<br />
+              round start · score · overtime · victory
+            </div>
+          </div>
+
+          <div class="spotlight-copy">
+            <span class="badge">System 04</span>
+            <h3>Competitive match runtime</h3>
+            <p class="lead">
+              Competitive Alpha is structured like a match server, not a normal lobby with a scoreboard.
+            </p>
+            <p class="tech">
+              The competitive place contains dedicated services for match bootstrap, session state, rounds,
+              scoring, match points, overtime, halftime, team filtering, AFK handling, spawn maps, spectators,
+              reconnects, forfeits, rewards, MVP presentation, victory, and cleanup.
+            </p>
+
+            <div class="tag-list" style="margin-top:18px;">
+              <span class="tag">RoundService</span>
+              <span class="tag">ScoreService</span>
+              <span class="tag">MatchStateService</span>
+              <span class="tag">ReconnectService</span>
+              <span class="tag">VictoryService</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-grid cols-3">
+          <div class="detail-card">
+            <h4>Round Lifecycle</h4>
+            <p>
+              Match state is split into bootstrap, session, round, score, overtime, victory, and cleanup
+              responsibilities.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Player Failure Handling</h4>
+            <p>
+              Reconnect, AFK, forfeit, spectator, and return-to-lobby services cover common live multiplayer
+              failure cases.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Replicated Competitive UI</h4>
+            <p>
+              Score, round, MVP, spectator, match state, and competitive VFX remotes give clients clear,
+              structured updates.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="spotlight">
+        <div class="spotlight-top reveal">
+          <div class="media">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="frame-label">
+              Add progression / inventory clip here<br />
+              roll · equip · cosmetics · rewards
+            </div>
+          </div>
+
+          <div class="spotlight-copy">
+            <span class="badge">System 05</span>
+            <h3>Progression, economy, cosmetics, and rewards</h3>
+            <p class="lead">
+              Player-facing rewards are backed by registries, services, and ownership-aware UI.
+            </p>
+            <p class="tech">
+              The project includes stand ownership, inventory flow, gacha, shops, level rewards, daily rewards,
+              ELO reward configs, cosmetic registry data, cosmetic rig application, pet registry data,
+              perk registry data, and match reward presentation.
+            </p>
+
+            <div class="tag-list" style="margin-top:18px;">
+              <span class="tag">CosmeticRegistry</span>
+              <span class="tag">PetRegistry</span>
+              <span class="tag">PerkRegistry</span>
+              <span class="tag">LevelRewardConfig</span>
+              <span class="tag">EloRewardConfig</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h4>Registry-Based Content</h4>
+            <p>
+              Cosmetics, pets, perks, stands, and rewards are represented through shared registry modules
+              instead of being hard-coded into isolated UI scripts.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Cosmetic Application</h4>
+            <p>
+              Cosmetic rig application is handled through a dedicated applier module, separating ownership
+              data from character presentation.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Reward Presentation</h4>
+            <p>
+              Match rewards, MVP rewards, daily rewards, and level rewards have client presentation paths
+              instead of being invisible server-side increments.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Inventory and Shop Flow</h4>
+            <p>
+              Gacha, shop, inventory, roll, and equip flows are connected through remotes and client controllers
+              that keep ownership feedback visible to the player.
+            </p>
+          </div>
+        </div>
+      </section>      <section class="spotlight">
+        <div class="spotlight-top reverse reveal">
+          <div class="media">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="frame-label">
+              Add mobile / HUD showcase here<br />
+              ability HUD · scoreboards · spectator · VFX
+            </div>
+          </div>
+
+          <div class="spotlight-copy">
+            <span class="badge">System 06</span>
+            <h3>Client UX, mobile support, HUDs, and VFX</h3>
+            <p class="lead">
+              The client layer is organized around responsibility: input, movement, camera, HUD, VFX, mobile, and recovery.
+            </p>
+            <p class="tech">
+              Client scripts include input handling, movement, camera behavior, VFX controllers, mobile combat controls,
+              mobile block fallback, status HUD, stand HUD watchdog, progression HUD, roll UI, daily reward UI,
+              party UI, spectator UI, scoreboards, match reward presentation, and resolution scaling.
+            </p>
+
+            <div class="tag-list" style="margin-top:18px;">
+              <span class="tag">InputHandler</span>
+              <span class="tag">MovementController</span>
+              <span class="tag">VFXController</span>
+              <span class="tag">MobileCombatControls</span>
+              <span class="tag">StandHUDWatchdog</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h4>Responsive Control Layer</h4>
+            <p>
+              The client can read input immediately and show feedback quickly while the server still owns
+              combat validation and final outcomes.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Mobile Support</h4>
+            <p>
+              Dedicated mobile combat controls and block fallback scripts show the project was built for
+              Roblox’s real device mix, not only desktop testing.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>HUD Recovery</h4>
+            <p>
+              Watchdog and scaling scripts help keep ability HUDs and UI state reliable across respawns,
+              resolution changes, and state transitions.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Competitive Presentation</h4>
+            <p>
+              Scoreboards, MVP sequences, spectator UI, round updates, and reward presentation make match
+              state readable to players.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="spotlight">
+        <div class="spotlight-top reveal">
+          <div class="media">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+            <div class="frame-label">
+              Add onboarding showcase here<br />
+              first join · training · queue readiness
+            </div>
+          </div>
+
+          <div class="spotlight-copy">
+            <span class="badge">System 07</span>
+            <h3>Onboarding, tutorial state, and training isolation</h3>
+            <p class="lead">
+              First-time player flow is treated as game state, not just a welcome popup.
+            </p>
+            <p class="tech">
+              Tutorial and training systems include welcome/loading flow, TutorialServer, TutorialController,
+              TutorialTrainingService, TutorialTrainingController, private training attributes, completion states,
+              reward readiness, and combat systems that understand tutorial contexts.
+            </p>
+
+            <div class="tag-list" style="margin-top:18px;">
+              <span class="tag">TutorialServer</span>
+              <span class="tag">TutorialController</span>
+              <span class="tag">TutorialTrainingService</span>
+              <span class="tag">Training State</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-card">
+            <h4>First-Join Flow</h4>
+            <p>
+              Loading, welcome, tutorial, and training systems create a guided path before players enter
+              normal PvP flow.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Network-Visible State</h4>
+            <p>
+              Tutorial attributes make training state visible to the systems that need to respect it,
+              including combat and UI.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Training Restrictions</h4>
+            <p>
+              Combat and grab systems can check tutorial context so onboarding cannot be easily broken
+              by normal gameplay actions.
+            </p>
+          </div>
+
+          <div class="detail-card">
+            <h4>Reward Readiness</h4>
+            <p>
+              Tutorial completion can connect into progression through reward-ready and task-complete states.
+            </p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="code-section" id="code">
+      <div class="wrap">
+        <div class="eyebrow">Code Patterns</div>
+        <h2>Portfolio-safe examples of how the systems are structured.</h2>
+        <p>
+          These examples are shortened to show engineering patterns without dumping entire production scripts:
+          input buffering behind server validation, server-created hitbox debug visuals, and queue storage
+          that can run live with MemoryStore while still being testable inside Studio.
+        </p>
+
+        <div class="code-grid">
+          <article class="code-card">
+            <div class="code-title">
+              <strong>BRivalsEngineCore</strong>
+              <span>Input Buffering</span>
+            </div>
+            <pre><code><span class="hl-gray">-- M1 inputs can queue during recovery</span>
+local INPUT_BUFFER_WINDOW = <span class="hl-red">0.30</span>
+local inputBuffer = {}
+
+if CombatService.IsInRecovery(player)
+and inputType == <span class="hl-green">"M1"</span> then
+  inputBuffer[player.UserId] = {
+    inputType = inputType,
+    payload = payload,
+    standId = standId,
+    time = tick(),
   }
-</script>
 
+  task.spawn(function()
+    while inputBuffer[userId]
+    and tick() - inputBuffer[userId].time
+    &lt; INPUT_BUFFER_WINDOW do
+      if not CombatService.IsInRecovery(player) then
+        local buffered = inputBuffer[userId]
+        inputBuffer[userId] = nil
+
+        BRivalsEngineCore.ProcessAbilityRequest(
+          player,
+          buffered.inputType,
+          buffered.payload
+        )
+
+        return
+      end
+
+      task.wait(<span class="hl-red">0.016</span>)
+    end
+
+    inputBuffer[userId] = nil
+  end)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>CombatService</strong>
+              <span>Debug Hitboxes</span>
+            </div>
+            <pre><code><span class="hl-gray">-- Debug visuals are created by the server</span>
+local HITBOX_INDICATOR_LIFETIME = <span class="hl-red">0.085</span>
+
+local function makeHitboxIndicatorBase(name)
+  local part = Instance.new(<span class="hl-green">"Part"</span>)
+  part.Name = name
+  part.Anchored = true
+  part.CanCollide = false
+  part.CanTouch = false
+  part.CanQuery = false
+  part.CastShadow = false
+  part.Material = Enum.Material.ForceField
+  part.Transparency = <span class="hl-red">0.88</span>
+  part.Parent = workspace
+
+  Debris:AddItem(
+    part,
+    HITBOX_INDICATOR_LIFETIME + <span class="hl-red">0.05</span>
+  )
+
+  return part
+end
+
+function CombatService.ShowHitboxRadius(position, radius)
+  if not hitboxIndicatorsEnabled then return end
+
+  local part = makeHitboxIndicatorBase(
+    <span class="hl-green">"HitboxIndicator_Radius"</span>
+  )
+
+  local diameter = math.max(radius * <span class="hl-red">2</span>, <span class="hl-red">0.1</span>)
+  part.Shape = Enum.PartType.Ball
+  part.Size = Vector3.new(diameter, diameter, diameter)
+  part.CFrame = CFrame.new(position)
+end</code></pre>
+          </article>
+
+          <article class="code-card">
+            <div class="code-title">
+              <strong>QueueStoreAdapter</strong>
+              <span>Studio-Safe Queueing</span>
+            </div>
+            <pre><code><span class="hl-gray">-- MemoryStore in live servers, fallback in Studio</span>
+local fallbackQueues = {}
+local memoryStoreAvailable = true
+
+function QueueStoreAdapter.UpsertTicket(ticket)
+  local modeId = ticket.QueueMode
+  local key = tostring(ticket.UserId)
+  local ttl = CompetitiveConstants.Queue.TicketTtlSeconds
+
+  if memoryStoreAvailable then
+    local ok, err = pcall(function()
+      local map = MemoryStoreService:GetSortedMap(
+        getStoreKey(modeId)
+      )
+
+      map:SetAsync(
+        key,
+        ticket,
+        ttl,
+        ticket.Timestamp or os.time()
+      )
+    end)
+
+    if ok then
+      return true
+    end
+
+    memoryStoreAvailable = false
+    warn(<span class="hl-green">"MemoryStore unavailable; using local fallback"</span>, err)
+  end
+
+  local queue = getFallbackQueue(modeId)
+  queue[key] = {
+    Value = ticket,
+    ExpiresAt = os.clock() + ttl,
+  }
+
+  return true
+end</code></pre>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="metrics">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Scanned Metrics</div>
+          <h2>Numbers that support the hiring claim.</h2>
+        </div>
+        <p>
+          The goal is not to flex random instance counts. These metrics show that the work covers a real
+          Roblox production surface: shared modules, server systems, client controllers, competitive services,
+          remotes, animations, UI, cosmetics, and progression content.
+        </p>
+      </div>
+
+      <div class="metrics-table reveal">
+        <div class="metric-row">
+          <div class="metric-name">Total Code Assets</div>
+          <div class="metric-desc">Combined Script, LocalScript, and ModuleScript count across both scanned places.</div>
+          <div class="metric-value">866</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Total ModuleScripts</div>
+          <div class="metric-desc">Reusable modules for combat, services, configs, registries, competitive rules, and client behavior.</div>
+          <div class="metric-value">593</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">BRAINROT RIVALS</div>
+          <div class="metric-desc">Main game/lobby/progression place containing combat, roster, queues, shops, cosmetics, pets, and onboarding.</div>
+          <div class="metric-value">464 code</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">COMPETITIVE ALPHA</div>
+          <div class="metric-desc">Competitive match place containing round, score, reconnect, spectator, reward, and cleanup services.</div>
+          <div class="metric-value">402 code</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Playable Kits</div>
+          <div class="metric-desc">Stand folders implemented through a consistent controller/state/ability pattern.</div>
+          <div class="metric-value">17</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Ability Modules</div>
+          <div class="metric-desc">Server-side ability modules mapped to gameplay inputs across the roster.</div>
+          <div class="metric-value">91</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Stand Server Modules</div>
+          <div class="metric-desc">Controllers, state modules, utility modules, and server ability logic across playable kits.</div>
+          <div class="metric-value">143</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Lobby Services</div>
+          <div class="metric-desc">Queue zones, quick queue, matchmaking, tickets, accept flow, reservations, packets, and teleport prep.</div>
+          <div class="metric-value">13</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Match Services</div>
+          <div class="metric-desc">Round, score, overtime, team, spectator, reconnect, forfeit, rewards, MVP, victory, spawn, and cleanup systems.</div>
+          <div class="metric-value">27</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Competitive Remotes</div>
+          <div class="metric-desc">RemoteEvents for match state, round state, score, spectator, reconnect, forfeit, rewards, MVP, and teleport flow.</div>
+          <div class="metric-value">19</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Shared Competitive Modules</div>
+          <div class="metric-desc">Constants, event schemas, match packet schema, match rules, state definitions, reconnect rules, team filters, and teleport data.</div>
+          <div class="metric-value">8</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Cosmetic Folders</div>
+          <div class="metric-desc">Character skins and cosmetic variants organized as assets and registry-driven content.</div>
+          <div class="metric-value">59</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Pet Models</div>
+          <div class="metric-desc">Pet models connected to the progression and registry ecosystem.</div>
+          <div class="metric-value">16</div>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-name">Animations</div>
+          <div class="metric-desc">Animation instances across characters, abilities, rigs, cosmetics, movement, and gameplay presentation.</div>
+          <div class="metric-value">504 / 468</div>
+        </div>
+      </div>
+    </section>    <section class="section wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Engineering Decisions</div>
+          <h2>The details that make the work usable on a team.</h2>
+        </div>
+        <p>
+          A hiring page should not just say “I made systems.” It should show how I think:
+          clear authority boundaries, reusable services, predictable module structure, testable infrastructure,
+          and client code that supports real Roblox players on real devices.
+        </p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <h3>Client responsiveness without client-owned damage</h3>
+          <p>
+            Inputs can feel immediate while damage, stun, block, parry, hitbox, and recovery outcomes remain server-owned.
+          </p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <h3>Character kits are content, not architecture rewrites</h3>
+          <p>
+            New stands follow a controller/state/ability structure so the roster can grow without duplicating core combat logic.
+          </p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <h3>Lobby and match servers have different responsibilities</h3>
+          <p>
+            The main place prepares players through queueing, progression, and onboarding while Competitive Alpha handles match runtime.
+          </p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <h3>Match flow accounts for failure cases</h3>
+          <p>
+            Reconnect, AFK, forfeit, spectator, return-to-lobby, cleanup, and reward services exist because real multiplayer sessions break.
+          </p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <h3>Networking is grouped by gameplay domain</h3>
+          <p>
+            Combat, progression, inventory, matchmaking, party flow, competitive state, score, round, spectator, and reward events are separated by purpose.
+          </p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <h3>Studio-safe fallbacks keep development moving</h3>
+          <p>
+            Queue storage can fall back locally when MemoryStore is unavailable, which keeps matchmaking systems testable during Studio development.
+          </p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <h3>Progression uses registries and appliers</h3>
+          <p>
+            Stands, cosmetics, pets, perks, rewards, and rig application are represented through modules instead of being buried in UI scripts.
+          </p>
+        </div>
+
+        <div class="timeline-item reveal">
+          <h3>Client UX includes recovery paths</h3>
+          <p>
+            Mobile controls, HUD watchdogs, resolution scaling, spectator UI, reward presentation, and VFX controllers support real player conditions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Remote Architecture</div>
+          <h2>A multiplayer surface organized by responsibility.</h2>
+        </div>
+        <p>
+          The remotes are not treated as a dumping ground. They are split by gameplay domain so combat,
+          progression, inventory, queueing, party flow, and competitive match state can evolve without becoming impossible to reason about.
+        </p>
+      </div>
+
+      <div class="detail-grid cols-3">
+        <div class="detail-card">
+          <h4>Combat / Input</h4>
+          <p>
+            CombatEvent, InputEvent, MovementEvent, AnimationEvent, FlingEvent, and LobbyCombatBlockedEvent
+            support action requests, movement feedback, animation playback, and combat restrictions.
+          </p>
+        </div>
+
+        <div class="detail-card">
+          <h4>Progression / Economy</h4>
+          <p>
+            InventoryEvent, ProgressionEvent, StandEvent, GachaFunction, ShopFunction, reward configs,
+            and shared registries support ownership, purchases, rolls, rewards, and presentation.
+          </p>
+        </div>
+
+        <div class="detail-card">
+          <h4>Competitive Match State</h4>
+          <p>
+            MatchStateEvent, RoundEvent, RoundStateEvent, RoundWonEvent, ScoreEvent, SpectatorEvent,
+            MVPEvent, ForfeitEvent, ReconnectEvent, ReturnToLobbyEvent, and TeleportEvent keep clients synchronized.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">What I Bring To A Roblox Team</div>
+          <h2>I can own the messy middle between prototype and live game.</h2>
+        </div>
+        <p>
+          Many Roblox features are easy to make once. The hard part is making them safe, extensible,
+          debuggable, and connected to the rest of the game. That is the work I am strongest at.
+        </p>
+      </div>
+
+      <div class="arch-grid">
+        <article class="card reveal">
+          <h3>For Combat Games</h3>
+          <p>
+            I understand the details that make PvP feel fair: hitboxes, latency, recovery, endlag,
+            server ownership, status effects, blocking, parries, grabs, knockback, and readable feedback.
+          </p>
+          <div class="tag-list">
+            <span class="tag">PvP Systems</span>
+            <span class="tag">Hit Validation</span>
+            <span class="tag">Combat Feel</span>
+            <span class="tag">Exploit Resistance</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>For Live Games</h3>
+          <p>
+            I build with service boundaries, shared configs, registries, data flow, test paths,
+            failure handling, and debugging tools so features can survive updates.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Maintainability</span>
+            <span class="tag">Services</span>
+            <span class="tag">Fallbacks</span>
+            <span class="tag">Live Ops</span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <h3>For Small Teams</h3>
+          <p>
+            I can move across server systems, remotes, client controllers, UI state, rewards,
+            matchmaking, tutorials, mobile support, and feature integration without needing every task isolated.
+          </p>
+          <div class="tag-list">
+            <span class="tag">Full-Stack Roblox</span>
+            <span class="tag">Luau</span>
+            <span class="tag">Roblox Services</span>
+            <span class="tag">Shipping Mindset</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" id="engage">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">How We'd Work Together</div>
+          <h2>Three ways to bring this into your project.</h2>
+        </div>
+        <p>
+          I work with Roblox studios and solo developers at different stages. Pick whichever matches
+          where your project is — exact terms get confirmed once we've talked through scope.
+        </p>
+      </div>
+
+      <div class="engage-grid">
+        <article class="engage-card reveal">
+          <div class="kicker">Option 01</div>
+          <h4>Single System Build</h4>
+          <div class="price">Fixed scope · Fixed price</div>
+          <p>For teams that need one system built right — combat, matchmaking, or a progression pipeline — without committing to ongoing work.</p>
+          <ul>
+            <li>Scoped deliverable with a clear definition of done</li>
+            <li>Architecture review before any code is written</li>
+            <li>Handoff documentation for your team</li>
+          </ul>
+        </article>
+
+        <article class="engage-card featured reveal">
+          <div class="kicker">Option 02</div>
+          <h4>Embedded Contractor</h4>
+          <div class="price">Weekly or monthly · Ongoing</div>
+          <p>For studios actively shipping who need a systems programmer working alongside the rest of the team in Studio and on calls.</p>
+          <ul>
+            <li>Standups, sprint planning, and code review with your team</li>
+            <li>Owns a feature area end-to-end across updates</li>
+            <li>Available for live-ops fixes after launch</li>
+          </ul>
+        </article>
+
+        <article class="engage-card reveal">
+          <div class="kicker">Option 03</div>
+          <h4>Full-Time / Contract-to-Hire</h4>
+          <div class="price">Salaried or trial-to-permanent</div>
+          <p>For studios building a long-term roster who want a systems programmer who can grow into ownership of core architecture.</p>
+          <ul>
+            <li>Open to relocating priorities around your roadmap</li>
+            <li>Comfortable owning architecture decisions, not just tickets</li>
+            <li>Trial period welcome if it de-risks the hire</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section wrap" id="faq">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Frequently Asked</div>
+          <h2>Questions a hiring manager would actually ask.</h2>
+        </div>
+        <p>
+          If something below doesn't answer it, that's exactly what the contact form is for —
+          I'd rather get a question directly than have it go unasked.
+        </p>
+      </div>
+
+      <div class="faq-list reveal">
+        <details class="faq-item" open>
+          <summary>What's your availability right now?<span class="plus">+</span></summary>
+          <div class="faq-a">I'm currently open to new contract and full-time work. I can usually start scoping within a few days of an initial call, with capacity for a part-time engagement immediately and full-time within two weeks' notice to any existing commitment.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Do you work with small/solo teams, or only studios?<span class="plus">+</span></summary>
+          <div class="faq-a">Both. Solo developers usually need the most help with architecture decisions early, since those choices are expensive to undo later. Studios usually need someone who can slot into an existing codebase without breaking conventions the team already relies on. I scope the engagement differently depending on which one you are.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Can you work inside an existing codebase, or only greenfield?<span class="plus">+</span></summary>
+          <div class="faq-a">Existing codebases are most of what I do. The case study on this page is two connected places I built and maintained over time, not a from-scratch demo — I'm used to reading unfamiliar Luau, mapping its conventions, and extending it without a rewrite.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What does the first call actually cover?<span class="plus">+</span></summary>
+          <div class="faq-a">A 20–30 minute conversation about what you're building, where the project is stuck or going next, and whether a fixed-scope build, an embedded engagement, or a full-time role fits best. No pricing pressure on that call — it's mainly so we both know if it's a fit before either of us commits time.</div>
+        </details>
+        <details class="faq-item">
+          <summary>Are you open to an NDA before sharing project details?<span class="plus">+</span></summary>
+          <div class="faq-a">Yes. I'm used to working under NDA and can sign one before any deeper discussion of your project's specifics, source code, or unreleased systems.</div>
+        </details>
+        <details class="faq-item">
+          <summary>What tools and workflow do you use day to day?<span class="plus">+</span></summary>
+          <div class="faq-a">Roblox Studio with Rojo for source control, Git for version history, and standard PR-based review when working inside a team repo. I'm comfortable adapting to whatever workflow your studio already has rather than asking a team to change theirs for me.</div>
+        </details>
+      </div>
+    </section>
+
+    <section class="footer-cta" id="contact">
+      <div class="wrap">
+        <div class="eyebrow">Available For Roblox Systems Work</div>
+        <h2>If your Roblox game needs real multiplayer systems, I can help build them.</h2>
+        <p>
+          I am focused on server-authoritative combat, modular Luau architecture, scalable character kits,
+          matchmaking and competitive flow, persistent progression, cosmetics, pets, mobile UX, UI controllers,
+          onboarding, debugging tools, and production-ready service structure.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn" href="mailto:your-email@example.com?subject=Roblox%20Systems%20Work">Email Me</a>
+          <button class="btn secondary" type="button" id="copyEmailBtn">Copy Email Address</button>
+          <a class="btn secondary" href="#top">Back To Top</a>
+          <span class="copy-feedback" id="copyFeedback">Copied to clipboard</span>
+        </div>
+        <p class="response-note">your-email@example.com · usually replies within 24 hours</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer-grid">
+      <div>
+        © 2026 Alterna Studio. Roblox systems programmer specializing in combat, multiplayer architecture,
+        progression, competitive match flow, and maintainable Luau services.
+      </div>
+
+      <div class="social-row" aria-label="Profile links">
+        <a href="https://github.com/your-handle" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.98 5.24.98 11.52c0 5.02 3.26 9.27 7.78 10.78.57.1.78-.25.78-.55 0-.27-.01-1.16-.02-2.1-3.17.69-3.84-1.36-3.84-1.36-.52-1.31-1.27-1.66-1.27-1.66-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.53-.29-5.2-1.27-5.2-5.63 0-1.24.44-2.26 1.17-3.05-.12-.29-.5-1.46.11-3.04 0 0 .96-.31 3.15 1.16a10.9 10.9 0 0 1 5.74 0c2.18-1.47 3.14-1.16 3.14-1.16.62 1.58.23 2.75.11 3.04.73.79 1.17 1.81 1.17 3.05 0 4.37-2.68 5.34-5.22 5.62.41.36.78 1.07.78 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.2.66.79.55A11.04 11.04 0 0 0 23.02 11.5C23.02 5.24 18.27.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.roblox.com/users/0/profile" aria-label="Roblox profile" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.45 0 0 19.55 19.55 24 24 4.45 4.45 0Zm6.5 8.4 4.65 1.2-1.2 4.65-4.65-1.2 1.2-4.65Z"/></svg>
+        </a>
+        <a href="https://x.com/your-handle" aria-label="X / Twitter" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2H21.5l-7.3 8.34L22.8 22h-6.76l-5.3-6.93L4.66 22H1.4l7.8-8.92L1 2h6.94l4.78 6.34L18.24 2Zm-1.18 18.18h1.8L7.02 3.74H5.08l11.98 16.44Z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-cta">
+    <a class="btn secondary" href="#hire">What I Build</a>
+    <a class="btn" href="mailto:your-email@example.com?subject=Roblox%20Systems%20Work">Email Me</a>
+  </div>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealItems = document.querySelectorAll(".reveal");
+
+    if (prefersReducedMotion) {
+      revealItems.forEach((item) => item.classList.add("in-view"));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.14 }
+      );
+
+      revealItems.forEach((item) => observer.observe(item));
+    }
+
+    // Scroll progress bar
+    const progressBar = document.getElementById("scrollProgress");
+    function updateProgress() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+      progressBar.style.width = pct + "%";
+    }
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+
+    // Mobile nav toggle
+    const navToggle = document.getElementById("navToggle");
+    const primaryNav = document.getElementById("primaryNav");
+    navToggle.addEventListener("click", () => {
+      const isOpen = primaryNav.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    primaryNav.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        primaryNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    // Active nav link tracking
+    const navLinks = document.querySelectorAll("[data-nav]");
+    const trackedSections = Array.from(navLinks)
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    if (trackedSections.length) {
+      const sectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const id = "#" + entry.target.id;
+            const link = document.querySelector('[data-nav][href="' + id + '"]');
+            if (!link) return;
+            if (entry.isIntersecting) {
+              navLinks.forEach((l) => l.classList.remove("active"));
+              link.classList.add("active");
+            }
+          });
+        },
+        { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+      );
+      trackedSections.forEach((section) => sectionObserver.observe(section));
+    }
+
+    // Copy email to clipboard
+    const copyBtn = document.getElementById("copyEmailBtn");
+    const copyFeedback = document.getElementById("copyFeedback");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", async () => {
+        const email = "your-email@example.com";
+        try {
+          await navigator.clipboard.writeText(email);
+        } catch (err) {
+          const tmp = document.createElement("textarea");
+          tmp.value = email;
+          document.body.appendChild(tmp);
+          tmp.select();
+          document.execCommand("copy");
+          document.body.removeChild(tmp);
+        }
+        copyFeedback.classList.add("show");
+        copyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          copyFeedback.classList.remove("show");
+          copyBtn.textContent = "Copy Email Address";
+        }, 1800);
+      });
+    }
+  </script>
 </body>
 </html>
-HTMLEOF
